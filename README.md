@@ -3,7 +3,7 @@
 RpiDormView is an open source project designed to help prospective students, current students and parents learn more about dorms at RPI.
 
 
-Tech Stack: HTML, Python, Typescript, CSS
+Tech Stack: Next.js, React, TailwindCSS, Typescript
 
 Philosophy
 ==========
