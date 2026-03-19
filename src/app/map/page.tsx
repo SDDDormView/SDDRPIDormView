@@ -1,9 +1,12 @@
+import Map from './Map'
 export default function Home() {
   return (
     <main className="min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold">
-        RPI Dorm View - Map
-      </h1>
+      <div className='App'>
+      <section className='map-container'>
+         <Map/>
+      </section>
+    </div>
     </main>
   )
 }
