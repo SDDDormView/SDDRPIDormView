@@ -28,7 +28,7 @@ export class DormBuilding{
 
 	//get single attribute
 	get_single_attributes(attribute_name){
-		return this.#attributes;
+		return this.#attributes.get(attribute_name);
 	}
 
 	get_furniture(){
