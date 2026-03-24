@@ -157,8 +157,19 @@ export default function Home() {
         {/* IMAGE */}
         <img src="/fieldrpi.jpg" alt="Dorm Image" className="w-80 h-80 object-cover rounded-lg shadow-md" />
         {/* TEXT DORM NAME */}
+        <div className="absolute bottom-15 left-5 max-w-md px-4">
+          <p
+            className="text-white text-xl"
+            style={{ textShadow: "1px 1px 0px black" }}
+          >
+            John  Polytechnic
+          </p>
+        </div>
         {/* LEFT AND RIGHT ARROW SCROLLS */}
         {/* GREY BOX */}
+        <section className="relative left-5 bg-gray-200 rounded-lg w-full">
+          <p className="text-1xl italic px-10 py-2">Discover RPI</p>
+        </section>
           {/* HEADER - Dorm Name, Location, etc... */}
           {/* DESCRIPTION - General description of dorm*/}
 
