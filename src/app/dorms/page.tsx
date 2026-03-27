@@ -76,7 +76,7 @@ export default function Home() {
             <li className="flex p-4 bg-gray-400 rounded space-x-4">
               <img src="/fieldrpi.jpg" alt="86 field" className="w-48 h-48 object-cover rounded" />
               <div className="flex flex-col w-full space-y-4">
-                <Link href="/dorms/crockett-hall" className="text-lg font-bold hover:underline">
+                <Link href="/dorms/crockett-hall" className="text-lg font-bold underline">
                   Crockett Hall
                 </Link>
 
@@ -93,7 +93,7 @@ export default function Home() {
             <li className="flex p-4 bg-gray-400 rounded space-x-4">
               <img src="/fieldrpi.jpg" alt="86 field" className="w-48 h-48 object-cover rounded" />
               <div className="flex flex-col w-full space-y-4">
-                <Link href="/dorms/quad" className="text-lg font-bold hover:underline">
+                <Link href="/dorms/quad" className="text-lg font-bold underline">
                   Quad
                 </Link>
 
