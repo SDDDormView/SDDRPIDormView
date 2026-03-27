@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="mt-12">
+    <footer className="mt-8">
       {/* Grey separator bar */}
       <div className="h-1 bg-gray-300 w-full"></div>
 
