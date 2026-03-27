@@ -1,6 +1,9 @@
 import Link from "next/link";
 
 export default function Home() {
+
+  //set up building class to use in css
+
   return (
     <main className="flex-col h-screen">
       {/* this goes behind the header so it doesn't look like whitespace */}
@@ -73,38 +76,50 @@ export default function Home() {
 
           {/* dorm list */}
           <ul className="space-y-4">
-            <li className="flex p-4 bg-gray-400 rounded space-x-4">
-              <img src="/fieldrpi.jpg" alt="86 field" className="w-48 h-48 object-cover rounded" />
-              <div className="flex flex-col w-full space-y-4">
-                <Link href="/dorms/crockett-hall" className="text-lg font-bold underline">
-                  Crockett Hall
-                </Link>
+            <li>
+              <Link href="#">
+              <div className="flex p-4 bg-gray-400 rounded space-x-4 hover:bg-gray-500">
+                {/* image element */}
+                <img src="/fieldrpi.jpg" alt="86 field" className="w-48 h-48 object-cover rounded" />
 
-                <div className="grid grid-cols-3 gap-4">
-                  <p>Nearest dining hall: Commons</p>
-                  <p>A/C: No</p>
-                  <p>Elevator: No</p>
+                {/* text elements */}
+                <div className="flex flex-col w-full space-y-4">
+                  <div className="text-lg font-bold">Dorm: Crockett Hall</div>
+
+                  {/* attributes and tags */}
+                  <div className="grid grid-cols-3 gap-4">
+                    <p>Nearest dining hall: Commons</p>
+                    <p>A/C: No</p>
+                    <p>Elevator: No</p>
+                  </div>
+
+                  <p className="font-bold">Tags: ethernet, bike rack, elevator</p>
                 </div>
-
-                <p className="font-bold">Tags: ethernet, bike rack, elevator</p>
               </div>
+              </Link>
             </li>
 
-            <li className="flex p-4 bg-gray-400 rounded space-x-4">
-              <img src="/fieldrpi.jpg" alt="86 field" className="w-48 h-48 object-cover rounded" />
-              <div className="flex flex-col w-full space-y-4">
-                <Link href="/dorms/quad" className="text-lg font-bold underline">
-                  Quad
-                </Link>
+            <li>
+              <Link href="#">
+              <div className="flex p-4 bg-gray-400 rounded space-x-4 hover:bg-gray-500">
+                {/* image element */}
+                <img src="/fieldrpi.jpg" alt="86 field" className="w-48 h-48 object-cover rounded" />
 
-                <div className="grid grid-cols-3 gap-4">
-                  <p>Nearest dining hall: Sage</p>
-                  <p>A/C: No</p>
-                  <p>Elevator: No</p>
+                {/* text elements */}
+                <div className="flex flex-col w-full space-y-4">
+                  <div className="text-lg font-bold">Dorm: Quad</div>
+
+                  {/* attributes and tags */}
+                  <div className="grid grid-cols-3 gap-4">
+                    <p>Nearest dining hall: Sage</p>
+                    <p>A/C: No</p>
+                    <p>Elevator: No</p>
+                  </div>
+
+                  <p className="font-bold">Tags: ethernet, bike rack, elevator</p>
                 </div>
-
-                <p className="font-bold">Tags: ethernet, bike rack, elevator</p>
               </div>
+              </Link>
             </li>
           </ul>
         </div>
