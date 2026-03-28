@@ -94,7 +94,7 @@ const dorms = Array.from({ length: 4 }, () =>
 
                     {/* text elements */}
                     <div className="flex flex-col w-full space-y-4">
-                      <div className="text-lg font-bold">
+                      <div className="text-lg font-bold underline">
                         Dorm: {dorm.get_dorm_name()}
                       </div>
 
