@@ -36,6 +36,7 @@ export class TranslateResponse{
 				years.push("Junior, Senior, Co-term");
 			}
 			curr_attmap.set('years', years);
+			//DormRoomTypes objects array component
 			let room_types = [];
 			if (obj['Single cost'] != null){
 				let dorm_rt = new DormRoomTypes();
