@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DormBuilding } from "./DormBuilding"
 import { QueryDatabase } from "./query_database";
 
-const db = new QueryDatabase();
+
 
 export default function Home() {
+  const db = useRef(new QueryDatabase());
 
   const [selectedYears, setSelectedYears] = useState<Set<string>>(new Set());
   const [selectedRoomTypes, setSelectedRoomTypes] = useState<Set<string>>(new Set());
@@ -16,30 +17,53 @@ export default function Home() {
   useEffect(() => {
     const fetchDorms = async () => {
       const payload: Record<string, unknown> = {};
+
+      // Only send a year filter if exactly one is selected.
+      // Multi-year is filtered client-side below.
       if (selectedYears.size === 1) {
         payload.years = [...selectedYears][0];
       }
-      const results = await db.query_database(payload);
-      setDorms(results);
+
+      if (selectedRoomTypes.size > 0) {
+        payload.building_styles = [...selectedRoomTypes];
+      }
+
+      console.log("Fetching with payload:", payload);
+      const results = await db.current.query_database(payload);
+      console.log("Results returned:", results);
+      console.log("Results length:", results?.length);
+      setDorms(results ?? []);
     };
     fetchDorms();
-  }, [selectedYears]);
+  }, [selectedYears, selectedRoomTypes]);
 
-  const displayedDorms = selectedRoomTypes.size === 0 ? dorms : dorms.filter((dorm) => {
-    const roomTypes = dorm.get_attributes()?.get("room_types") ?? [];
-    return roomTypes.some((rt: any) =>
-      selectedRoomTypes.has(rt.get_attributes()?.get("room_type"))
+  // Multi year filter
+  const yearFilteredDorms = selectedYears.size <= 1 ? dorms : dorms.filter((dorm) => {
+    const dormYears: string[] = dorm.get_attributes()?.get("years") ?? [];
+    return dormYears.some((y) => selectedYears.has(y));
+  });
+
+  // Room type filter 
+  const displayedDorms = selectedRoomTypes.size === 0 ? yearFilteredDorms : yearFilteredDorms.filter((dorm) => {
+    const buildingStyles: string[] = dorm.get_attributes()?.get("building_styles") ?? [];
+    return [...selectedRoomTypes].every((selected) =>
+      buildingStyles.some((style) => style.includes(selected))
     );
   });
 
   function toggleYear(year: string) {
     setSelectedYears((prev) => {
-      const next = new Set(prev);
-      next.has(year) ? next.delete(year) : next.add(year);
-      return next;
+      if (prev.has(year)) {
+        // Clicking the same one deselects it
+        return new Set();
+      } else {
+        // Clicking a new one replaces the old selection
+        return new Set([year]);
+      }
     });
   }
 
+  // messed up room type naming this was before, fix later
   function toggleRoomType(roomType: string) {
     setSelectedRoomTypes((prev) => {
       const next = new Set(prev);
@@ -76,17 +100,23 @@ export default function Home() {
           <p className="text-center text-lg my-4">Year</p>
           <ul className="space-y-4">
             <li className="flex items-center gap-2">
-              <input type="checkbox" className="w-4 h-4" checked={selectedYears.has("Freshman")} onChange={() => toggleYear("Freshman")} />
-              <p>Freshmen</p>
+              <input type="checkbox" name="year" className="w-4 h-4"
+                checked={selectedYears.has("Freshman")}
+                onChange={() => toggleYear("Freshman")} />
+              <p>Freshman</p>
             </li>
 
             <li className="flex items-center gap-2">
-              <input type="checkbox" className="w-4 h-4" checked={selectedYears.has("Sophomore")} onChange={() => toggleYear("Sophomore")} />
+              <input type="checkbox" name="year" className="w-4 h-4"
+                checked={selectedYears.has("Sophomore")}
+                onChange={() => toggleYear("Sophomore")} />
               <p>Sophomore</p>
             </li>
 
             <li className="flex items-center gap-2">
-              <input type="checkbox" className="w-4 h-4" checked={selectedYears.has("Junior, Senior, Co-term")} onChange={() => toggleYear("Junior, Senior, Co-term")} />
+              <input type="checkbox" name="year" className="w-4 h-4"
+                checked={selectedYears.has("Junior, Senior, Co-term")}
+                onChange={() => toggleYear("Junior, Senior, Co-term")} />
               <p>Junior, Senior, Co-term</p>
             </li>
           </ul>
@@ -96,23 +126,24 @@ export default function Home() {
           <p className="text-center text-lg my-4">Room Type</p>
           <ul className="space-y-4">
             <li className="flex items-center gap-2">
-              <input type="checkbox" className="w-4 h-4" checked={selectedRoomTypes.has("Single")} onChange={() => toggleRoomType("Single")} />
-              <p>Single</p>
+              <input type="checkbox" className="w-4 h-4"
+                checked={selectedRoomTypes.has("Traditional")}
+                onChange={() => toggleRoomType("Traditional")} />
+              <p>Traditional</p>
             </li>
 
             <li className="flex items-center gap-2">
-              <input type="checkbox" className="w-4 h-4" checked={selectedRoomTypes.has("Double")} onChange={() => toggleRoomType("Double")} />
-              <p>Double</p>
-            </li>
-
-            <li className="flex items-center gap-2">
-              <input type="checkbox" className="w-4 h-4" checked={selectedRoomTypes.has("Triple")} onChange={() => toggleRoomType("Triple")} />
-              <p>Triple</p>
-            </li>
-
-            <li className="flex items-center gap-2">
-              <input type="checkbox" className="w-4 h-4" checked={selectedRoomTypes.has("Suite")} onChange={() => toggleRoomType("Suite")} />
+              <input type="checkbox" className="w-4 h-4"
+                checked={selectedRoomTypes.has("Suite")}
+                onChange={() => toggleRoomType("Suite")} />
               <p>Suite</p>
+            </li>
+
+            <li className="flex items-center gap-2">
+              <input type="checkbox" className="w-4 h-4"
+                checked={selectedRoomTypes.has("Apartment")}
+                onChange={() => toggleRoomType("Apartment")} />
+              <p>Apartment</p>
             </li>
           </ul>
         </div>
@@ -123,23 +154,30 @@ export default function Home() {
             Dorms
           </h1>
 
+          {displayedDorms.length === 0 && (
+            <p className="text-center text-gray-500">No dorms found.</p>
+          )}
+
           {/* dorm list */}
           <ul className="space-y-4">
             {displayedDorms.map((dorm, index) => (
               <li key={index}>
                 <Link href="#">
                   <div className="flex p-4 bg-gray-400 rounded space-x-4 hover:bg-gray-500">
-                    {/* image element */}
+                    {/* Image TO DO: store images in db? cost? store images in public folder grab from there? */}
                     <img src="/fieldrpi.jpg" alt="86 field" className="w-48 h-48 object-cover rounded" />
 
-                    {/* text elements */}
+                    {/* Header */}
                     <div className="flex flex-col w-full space-y-4">
                       <div className="text-lg font-bold underline">
                         Dorm: {dorm.get_dorm_name()}
                       </div>
 
-                      {/* attributes and tags */}
+                      {/* Attributes per dorm */}
                       <div className="grid grid-cols-3 gap-4">
+                        <p>Year: {dorm.get_attributes()?.get("years") ?? "—"}</p>
+                        {/* TO DO FIX: ROOM TYPE AND ROOM SIZE DIFFERENT */}
+                        <p>Room Types: {dorm.get_attributes()?.get("building_styles") ?? "—"}</p>
                         <p>Nearest dining hall: {dorm.get_attributes()?.get("nearest_dining_hall") ?? "—"}</p>
                         <p>A/C: {dorm.get_amenities()?.get("air_conditioning") ? "Yes" : "No"}</p>
                         <p>Elevator: No</p>

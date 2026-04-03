@@ -26,11 +26,11 @@ export class TranslateResponse{
 			currDorm.set_dorm_name(obj['Dorm']);
 
 			//populate attribute map
-			//years array component
+			//years array component column is "Year" in DB, values are "F", "S", "other J thing FIX NAMING"
 			let years = []
-			if (obj['years'] === "F"){
+			if (obj['Year'] === "F"){
 				years.push("Freshman");
-			} else if (obj['years'] === "S"){
+			} else if (obj['Year'] === "S"){
 				years.push("Sophomore");
 			} else {
 				years.push("Junior, Senior, Co-term");
@@ -95,7 +95,7 @@ export class TranslateResponse{
 			if (obj['Restrooms'] === 'R'){
 				curr_amenmap.set('on_floor_restrooms', false);
 				curr_amenmap.set('in_room_restrooms', true);
-			} else if (obj['Restrooms'] == 'F'){
+			} else if (obj['Restrooms'] === 'F'){
 				curr_amenmap.set('on_floor_restrooms', true);
 				curr_amenmap.set('in_room_restrooms', false);
 			} else {

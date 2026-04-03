@@ -1,260 +1,9 @@
+import { createClient } from "../utils/supabase/client";
 import { TranslateResponse } from "./TranslateResponse.js";
-
-
-// Dummy Data for testing no supabase
-const MOCK_DORMS = [
-  {
-	Dorm: "BARH",
-	"Building Type": "Suite",
-	Occupants: 315,
-	Staff: 11,
-	Floors: 4,
-	"GI Housing": true,
-	Restrooms: "R",
-	"Mattress size": 'Extra Long Twin - 36" x 80" x 6"',
-	"A/C": false,
-	Carpet: false,
-	Ethernet: true,
-	"Nearest Dining": "BARH",
-	years: "F",
-	"Single cost": 11040,
-	"Double cost": 9750,
-	"Triple cost": null,
-	Kitchen: true,
-  },
-  {
-	Dorm: "Barton Hall",
-	"Building Type": "Suite/Traditional",
-	Occupants: 291,
-	Staff: 9,
-	Floors: 4,
-	"GI Housing": true,
-	Restrooms: "RF",
-	"Mattress size": 'Extra Long Twin - 36" x 80" x 6"',
-	"A/C": true,
-	Carpet: true,
-	Ethernet: true,
-	"Nearest Dining": "Commons",
-	years: "F",
-	"Single cost": null,
-	"Double cost": null,
-	"Triple cost": 10090,
-	Kitchen: false,
-  },
-  {
-	Dorm: "Blitman",
-	"Building Type": "Suite",
-	Occupants: 284,
-	Staff: 7,
-	Floors: 4,
-	"GI Housing": true,
-	Restrooms: "R",
-	"Mattress size": 'Extra Long Twin - 36" x 80" x 6"',
-	"A/C": true,
-	Carpet: false,
-	Ethernet: true,
-	"Nearest Dining": "Blitman Dining",
-	years: "S",
-	"Single cost": 11040,
-	"Double cost": 9750,
-	"Triple cost": null,
-	Kitchen: true,
-  },
-  {
-	Dorm: "Bray Hall",
-	"Building Type": "Traditional",
-	Occupants: 142,
-	Staff: 5,
-	Floors: 3,
-	"GI Housing": false,
-	Restrooms: "F",
-	"Mattress size": null,
-	"A/C": false,
-	Carpet: true,
-	Ethernet: true,
-	"Nearest Dining": "Commons",
-	years: "F",
-	"Single cost": 11040,
-	"Double cost": 9750,
-	"Triple cost": 8520,
-	Kitchen: true,
-  },
-  {
-	Dorm: "Cary Hall",
-	"Building Type": "Traditional",
-	Occupants: 142,
-	Staff: 5,
-	Floors: 3,
-	"GI Housing": false,
-	Restrooms: "F",
-	"Mattress size": 'Extra Long Twin - 36" x 80" x 6"',
-	"A/C": false,
-	Carpet: true,
-	Ethernet: true,
-	"Nearest Dining": "Commons",
-	years: "F",
-	"Single cost": 11040,
-	"Double cost": 9750,
-	"Triple cost": 8520,
-	Kitchen: true,
-  },
-  {
-	Dorm: "Crockett Hall",
-	"Building Type": "Traditional",
-	Occupants: 147,
-	Staff: 5,
-	Floors: 3,
-	"GI Housing": false,
-	Restrooms: "F",
-	"Mattress size": 'Extra Long Twin - 36" x 80" x 6"',
-	"A/C": false,
-	Carpet: true,
-	Ethernet: true,
-	"Nearest Dining": "Commons",
-	years: "F",
-	"Single cost": 11040,
-	"Double cost": 9750,
-	"Triple cost": 8520,
-	Kitchen: true,
-  },
-  {
-	Dorm: "Davison/Nugent Hall",
-	"Building Type": "Suite",
-	Occupants: 102,
-	Staff: 5,
-	Floors: 4,
-	"GI Housing": true,
-	Restrooms: "R",
-	"Mattress size": 'Extra Long Twin - 36" x 80" x 6"',
-	"A/C": true,
-	Carpet: false,
-	Ethernet: true,
-	"Nearest Dining": "Commons",
-	years: "F",
-	"Single cost": 11040,
-	"Double cost": 9750,
-	"Triple cost": null,
-	Kitchen: true,
-  },
-  {
-	Dorm: "E-Complex",
-	"Building Type": "Traditional",
-	Occupants: 107,
-	Staff: 4,
-	Floors: 3,
-	"GI Housing": false,
-	Restrooms: "F",
-	"Mattress size": 'Extra Long Twin - 36" x 80" x 6"',
-	"A/C": true,
-	Carpet: false,
-	Ethernet: true,
-	"Nearest Dining": "RSDH",
-	years: "S",
-	"Single cost": 11040,
-	"Double cost": 9750,
-	"Triple cost": null,
-	Kitchen: false,
-  },
-  {
-	Dorm: "Hall Hall",
-	"Building Type": "Traditional",
-	Occupants: 140,
-	Staff: 5,
-	Floors: 3,
-	"GI Housing": false,
-	Restrooms: "F",
-	"Mattress size": 'Extra Long Twin - 36" x 80" x 6"',
-	"A/C": false,
-	Carpet: true,
-	Ethernet: true,
-	"Nearest Dining": "Commons",
-	years: "F",
-	"Single cost": 11040,
-	"Double cost": 9750,
-	"Triple cost": 8520,
-	Kitchen: true,
-  },
-  {
-	Dorm: "Nason Hall",
-	"Building Type": "Traditional",
-	Occupants: 142,
-	Staff: 5,
-	Floors: 4,
-	"GI Housing": false,
-	Restrooms: "F",
-	"Mattress size": 'Extra Long Twin - 36" x 80" x 6"',
-	"A/C": false,
-	Carpet: true,
-	Ethernet: true,
-	"Nearest Dining": "Commons",
-	years: "F",
-	"Single cost": 11040,
-	"Double cost": 9750,
-	"Triple cost": 8520,
-	Kitchen: true,
-  },
-  {
-	Dorm: "RAHP A",
-	"Building Type": "Apartment",
-	Occupants: 236,
-	Staff: 5,
-	Floors: 2,
-	"GI Housing": true,
-	Restrooms: "R",
-	"Mattress size": 'Extra Long Twin - 36" x 80" x 6"',
-	"A/C": false,
-	Carpet: true,
-	Ethernet: false,
-	"Nearest Dining": "BARH Dining",
-	years: "S",
-	"Single cost": 8800,
-	"Double cost": null,
-	"Triple cost": null,
-	Kitchen: true,
-  },
-  {
-	Dorm: "Sharp Hall",
-	"Building Type": "Suite",
-	Occupants: 94,
-	Staff: 4,
-	Floors: 3,
-	"GI Housing": true,
-	Restrooms: "R",
-	"Mattress size": 'Extra Long Twin - 36" x 80" x 6"',
-	"A/C": true,
-	Carpet: false,
-	Ethernet: true,
-	"Nearest Dining": "Commons",
-	years: "F",
-	"Single cost": 11040,
-	"Double cost": null,
-	"Triple cost": null,
-	Kitchen: false,
-  },
-  {
-	Dorm: "Warren Hall",
-	"Building Type": "Suite",
-	Occupants: 110,
-	Staff: 5,
-	Floors: 3,
-	"GI Housing": false,
-	Restrooms: "R",
-	"Mattress size": 'Extra Long Twin - 36" x 80" x 6"',
-	"A/C": false,
-	Carpet: true,
-	Ethernet: true,
-	"Nearest Dining": "Commons",
-	years: "F",
-	"Single cost": 11040,
-	"Double cost": 9750,
-	"Triple cost": null,
-	Kitchen: false,
-  },
-];
 
 // List of filters
 const FILTER_COLUMN_MAP = {
-	years: "years",
+	years: "Year",
 	nearest_dining_hall: "Nearest Dining",
 	building_styles: "Building Type",
 	num_floors: "Floors",
@@ -267,15 +16,49 @@ const FILTER_COLUMN_MAP = {
 	ethernet: "Ethernet",
 	kitchen: "Kitchen",
 	restrooms: "Restrooms",
+	single_cost: "Single cost", // how to implement TO DO
+	double_cost: "Double cost",
+	triple_cost: "Triple cost",
+	room_sizes: null, // since prices can be null used to determine singles double triples: FIX
 };
 
 const YEAR_CODE_MAP = {
 	Freshman: "F",
 	Sophomore: "S",
+	// fix this junior senor co term naming WRONG COLUMN DATA
 	"Junior, Senior, Co-term": "J",
 };
 
+const BUILDING_TYPE_MAP = {
+	// Different from room type fix
+	Suite: "Suite",
+	Traditional: "Traditional",
+	Apartment: "Apartment",
+	Suite_Traditional: "Suite/Traditional",
+}
+
+const RESTROOMS_MAP = {
+	// Do we need map for Restroom as filter?
+	Room: "R",
+	Floor: "F",
+	Room_Floor: "RF",
+}
+
+const MATTRESS_SIZE_MAP = {
+	// idk if we need mattress size filter
+}
+
+const NEAREST_DINING_MAP = {
+	// fixing DINING naming for blitman and RSDH
+	Barh: "BARH",
+	Commons: "Commons",
+	Blitman: "Blitman",
+	Rsdh: "RSDH",
+}
+
 const EXACT_MATCH_FILTERS = new Set([
+	// attribute filters not dorm stuff like years
+	// split? idk
 	"air_conditioning",
 	"carpet",
 	"ethernet",
@@ -294,12 +77,13 @@ const EXACT_MATCH_FILTERS = new Set([
 
 export class QueryDatabase {
 	constructor() {
+		this.supabase = createClient();
 		this.translator = new TranslateResponse();
 	}
 
 	async query_database(filter_values = {}) {
-		let results = [...MOCK_DORMS];
 		// Connect to db
+		let query = this.supabase.from("Dorms").select("*");
 
 		// Apply filters [filter, value]
 		for (const [filterKey, filterValue] of Object.entries(filter_values)) {
@@ -311,8 +95,12 @@ export class QueryDatabase {
 
 			// Map filter key to database column
 			const column = FILTER_COLUMN_MAP[filterKey];
-			if (!column) {
+			if (column === undefined) {
 				console.warn(`Unknown filter key: "${filterKey}" — skipping.`);
+				continue;
+			} else if (column === null) {
+				// test null price
+				console.warn('TESTING REDO');
 				continue;
 			}
 
@@ -321,41 +109,76 @@ export class QueryDatabase {
 			// No hard code filter keys
 			if (filterKey === "years") {
 				const code = YEAR_CODE_MAP[filterValue] ?? filterValue;
-				results = results.filter((row) => row[column] === code);
+				query = query.eq(column, code);
 				continue;
 			}
 
 			if (filterKey === "building_styles") {
-				const value = Array.isArray(filterValue) ? filterValue[0] : filterValue;
-				results = results.filter((row) => row[column] === value);
+				const selected = Array.isArray(filterValue) ? filterValue : [filterValue];
+
+				// For each selected type, the dorm's building style must contain it
+				// Suite + Traditional match "Suite/Traditional"
+				// selecting just Suite matches "Suite" and "Suite/Traditional"
+				// TO DO: Change this system to hold an array of building styles
+				selected.forEach((type) => {
+					query = query.ilike(column, `%${type}%`);
+				});
+
 				continue;
 			}
+
+
+			// Messed up fix later the room types and sizes mixes and price isn't working
+			// TO DO
+			// if (filterKey === "room_sizes") {
+			// 	const sizes = Array.isArray(filterValue) ? filterValue : [filterValue];
+
+			// 	const conditions = sizes.map((size) => {
+			// 		switch (size) {
+			// 		case "Single": return "single_cost.not.is.null";
+			// 		case "Double": return "double_cost.not.is.null";
+			// 		case "Triple": return "triple_cost.not.is.null";
+			// 		default: return null;
+			// 		}
+			// 	}).filter(Boolean);
+
+			// 	if (conditions.length > 0) {
+			// 		query = query.or(conditions.join(","));
+			// 	}
+			// 	continue;
+			// }
 
 			// Exact match filters
 			if (EXACT_MATCH_FILTERS.has(filterKey)) {
-				results = results.filter((row) => row[column] === filterValue);
+				query = query.eq(column, filterValue);
 				continue;
 			}
 
-			// Range filter: { min, max } for pricing dorms
-			if (
-				typeof filterValue === "object" &&
-				!Array.isArray(filterValue) &&
-				("min" in filterValue || "max" in filterValue)
-			) {
-				if (filterValue.min !== undefined && filterValue.min !== "") {
-				results = results.filter((row) => row[column] >= filterValue.min);
-				}
-				if (filterValue.max !== undefined && filterValue.max !== "") {
-				results = results.filter((row) => row[column] <= filterValue.max);
-				}
-				continue;
-			}
+			// Range filter: { min, max } for pricing dorms idk if it works in theory
+			// TO DO check if input is int2 before using min max
+			// if (
+			// 	typeof filterValue === "object" &&
+			// 	!Array.isArray(filterValue) &&
+			// 	("min" in filterValue || "max" in filterValue)
+			// ) {
+			// 	if (filterValue.min !== undefined && filterValue.min !== "") {
+			// 	query = query.gte(column, filterValue.min);
+			// 	}
+			// 	if (filterValue.max !== undefined && filterValue.max !== "") {
+			// 	query = query.lte(column, filterValue.max);
+			// 	}
+			// 	continue;
+			// }
 
-			results = results.filter((row) => row[column] === filterValue);
+			query = query.eq(column, filterValue);
 		}
 
-		const db_response = { data: results, statusText: "OK" };
+		const { data, error } = await query;
+
+		const db_response = error
+			? { data: [], statusText: "ERROR", error: error.message }
+			: { data: data, statusText: "OK" };
+
 		return this.translator.translate_response(db_response);
 	}
 }
