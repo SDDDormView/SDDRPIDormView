@@ -202,7 +202,7 @@ export default function Home() {
           <ul className="space-y-4">
             {filteredDorms.map((dorm, index) => (
               <li key={index}>
-                <Link href="/dorms/Crockett">
+                <Link href={`/dorms/${encodeURIComponent(dorm.get_dorm_name())}`}>
                   <div className="flex p-4 bg-gray-400 rounded space-x-4 hover:bg-gray-500">
                     {/* image element */}
                     <img src="/fieldrpi.jpg" alt="86 field" className="w-48 h-48 object-cover rounded" />
