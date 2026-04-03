@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { DormBuilding } from "./DormBuilding"
+import { DormBuilding } from "../DormBuilding"
 
 export default function Home() {
 
