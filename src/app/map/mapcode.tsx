@@ -19,7 +19,7 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 export default function Home() {
-  const position = [51.505, -0.09];
+  const position: [number, number] = [51.505, -0.09];
 
   return (
     <main className="flex flex-col h-screen w-screen overflow-hidden">
