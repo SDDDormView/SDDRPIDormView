@@ -1,45 +1,11 @@
-'use client'
+'use client';
+import dynamic from 'next/dynamic';
 
-import { createContext } from 'react'
-
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-
-// Fix for default marker icons not showing up in Webpack/Vite builds
-import L from 'leaflet';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-
-let DefaultIcon = L.icon({
-    iconUrl: markerIcon,
-    shadowUrl: markerShadow,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41]
+const Map = dynamic(() => import('./mapcode'), { 
+  ssr: false,
+  loading: () => <div className="h-screen w-screen bg-gray-100 flex items-center justify-center">Loading Map...</div>
 });
-L.Marker.prototype.options.icon = DefaultIcon;
 
-export default function Home() {
-  const position = [51.505, -0.09];
-
-  return (
-    <main className="flex flex-col min-h-screen">
-      {/* this goes behind the header so it doesn't look like whitespace */}
-      <div className="h-18 bg-black flex">
-
-      </div>
-      <div style={{ height: "100%", width: "100%" }}> 
-        <MapContainer center={position} zoom={13} style={{ height: "100%", width: "100%" }}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Marker position={position}>
-            <Popup>
-              popup text
-            </Popup>
-          </Marker>
-        </MapContainer>
-      </div>
-    </main>
-  );
+export default function Page() {
+  return <Map />;
 }
