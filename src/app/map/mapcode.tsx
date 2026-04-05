@@ -19,7 +19,8 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 export default function Home() {
-  const position: [number, number] = [51.505, -0.09];
+  //keep as center of map
+  const centerpos: [number, number] = [42.729183, -73.679850];
 
   return (
     <main className="flex flex-col h-screen w-screen overflow-hidden">
@@ -29,15 +30,15 @@ export default function Home() {
       </div>
       <div className="flex-1 relative"> 
         <MapContainer 
-          center={position} 
-          zoom={13} 
+          center={centerpos} 
+          zoom={15.2} 
           style={{ height: "100%", width: "100%" }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={position}>
+          <Marker position={centerpos}>
             <Popup>popup text</Popup>
           </Marker>
         </MapContainer>
