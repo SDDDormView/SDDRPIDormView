@@ -24,7 +24,7 @@ export default function Home() {
 
                             <div className="block mb-6">
                                 <p className="text-sm text-gray-500">Password</p>
-                                <input type="text" className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400" placeholder="Enter Password" />
+                                <input type="password" className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400" placeholder="Enter Password" />
                             </div>
 
                             <hr className="border-gray-200 my-4" />
