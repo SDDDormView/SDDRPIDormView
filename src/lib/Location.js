@@ -22,10 +22,6 @@ class Location{
         return this.#type;
     }
 
-    plot_location(){
-        throw new Error("Method 'plot_location()' must be implemented.");
-    }
-
     get_info(){
         throw new Error("Method 'get_info()' must be implemented.");
     }
@@ -37,10 +33,6 @@ class DormLocation extends Location{
     constructor(lat, long, dorm_name){
         super(lat, long, "dorm");
         this.#dorm_name = dorm_name;
-    }
-
-    plot_location(){
-        //to be implemented
     }
 
     get_info(){
@@ -61,10 +53,6 @@ class DiningLocation extends Location{
         this.#dining_name = dining_name;
     }
 
-    plot_location(){
-        //to be implemented
-    }
-
     get_info(){
         return {
             lat: this.lat,
@@ -81,10 +69,6 @@ class TransportLocation extends Location{
     constructor(lat, long, transport_name){
         super(lat, long, "transport");
         this.#transport_name = transport_name;
-    }
-
-    plot_location(){
-        //to be implemented
     }
 
     get_info(){
