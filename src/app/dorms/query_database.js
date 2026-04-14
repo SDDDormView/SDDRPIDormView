@@ -93,6 +93,24 @@ export class QueryDatabase {
 				continue;
 			}
 
+			if (filterKey === "room_sizes") {
+				const sizes = Array.isArray(filterValue) ? filterValue : [filterValue];
+
+				const conditions = sizes.map((size) => {
+					switch (size) {
+						case "Single": return '"Single cost".not.is.null';
+						case "Double": return '"Double cost".not.is.null';
+						case "Triple": return '"Triple cost".not.is.null';
+						default: return null;
+					}
+				}).filter(Boolean);
+
+				if (conditions.length > 0) {
+					query = query.or(conditions.join(","));
+				}
+				continue;
+			}
+
 			// Map filter key to database column
 			const column = FILTER_COLUMN_MAP[filterKey];
 			if (column === undefined) {
@@ -100,7 +118,7 @@ export class QueryDatabase {
 				continue;
 			} else if (column === null) {
 				// test null price
-				console.warn('TESTING REDO');
+				console.warn('TESTING THIS IS NULL? Check if this is supposed to happen');
 				continue;
 			}
 
@@ -124,26 +142,6 @@ export class QueryDatabase {
 					query = query.ilike(column, `%${type}%`);
 				});
 
-				continue;
-			}
-
-
-			
-			if (filterKey === "room_sizes") {
-				const sizes = Array.isArray(filterValue) ? filterValue : [filterValue];
-
-				const conditions = sizes.map((size) => {
-					switch (size) {
-						case "Single": return "single_cost.not.is.null";
-						case "Double": return "double_cost.not.is.null";
-						case "Triple": return "triple_cost.not.is.null";
-						default: return null;
-					}
-				}).filter(Boolean);
-
-				if (conditions.length > 0) {
-					query = query.or(conditions.join(","));
-				}
 				continue;
 			}
 
