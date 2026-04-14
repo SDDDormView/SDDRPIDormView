@@ -23,6 +23,9 @@ export class DormBuilding{
 
 	//get entire dictionary
 	get_attributes(){
+		//this does not use structured clone as one of the map values is a list of custom class objects, which
+		//structuredClone will override and mess with. This is also why it is simple assignment only in the
+		//set_attributes function as well.
 		return this.#attributes;
 	}
 
@@ -60,7 +63,7 @@ export class DormBuilding{
 		if (typeof this.#attributes === 'undefined' && att_map instanceof Map){
 			//check for correct keys
 			if(this.check_keys(att_map, 'attributes')){
-				this.#attributes = structuredClone(att_map);
+				this.#attributes = att_map;
 				return 0;
 			}
 		}
@@ -190,6 +193,8 @@ export class DormBuilding{
 				building_styles_string += this.#attributes.get('building_styles')[i] + ', ';
 			} 
 		}
+		//all values are strings, format string is used where value MIGHT not be a string.
+		//if a value is a string anyway, same result.
 		return {
 			dorm_name: this.#dorm_name,
 			years: years_string,
@@ -205,8 +210,8 @@ export class DormBuilding{
 			wardrobe: `${this.#furniture.get('wardrobe')}`,
 			closet: `${this.#furniture.get('closet')}`,
 			bunkable_bed: `${this.#furniture.get('bunkable_bed')}`,
-			mattress_size: `${this.#furniture.get('mattress_size')[0]}` + '" x'+ `${this.#furniture.get('mattress_size')[1]}` + '"',
-			underbed_height: `${this.#furniture.get('underbed_height')}`+'"',
+			mattress_size: `${this.#furniture.get('mattress_size')}`,
+			underbed_height: `${this.#furniture.get('underbed_height')}`,
 			desk_and_chair: `${this.#furniture.get('desk_and_chair')}`,
 			bookcase: `${this.#furniture.get('bookcase')}`,
 			dresser: `${this.#furniture.get('dresser')}`,
