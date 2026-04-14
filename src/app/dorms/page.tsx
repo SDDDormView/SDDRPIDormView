@@ -233,7 +233,7 @@ export default function Home() {
                         <p>Year: {dorm.get_attributes()?.get("years") ?? "—"}</p>
                         <p>Room Types: {dorm.get_attributes()?.get("building_styles") ?? "—"}</p>
                         <p>Nearest dining hall: {dorm.get_attributes()?.get("nearest_dining_hall") ?? "—"}</p>
-                        <p>GI Housing Test: {dorm.get_attributes()?.get("gender_inclusive") ? "Yes" : "No"}</p>
+                        <p>GI Housing: {dorm.get_attributes()?.get("gender_inclusive") ? "Yes" : "No"}</p>
                         <p>Carpet: {dorm.get_amenities()?.get("carpet") ? "Yes" : "No"}</p>
                         <p>A/C: {dorm.get_amenities()?.get("air_conditioning") ? "Yes" : "No"}</p>
                         <p>Elevator: {dorm.get_amenities()?.get("elevator") ? "Yes" : "No"}</p>
