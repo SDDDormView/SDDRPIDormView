@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { DormBuilding } from "../../lib/DormBuilding";
 import { TranslateResponse } from "../dorms/TranslateResponse";
 import { DormRoomTypes } from "../../lib/DormRoomTypes";
-//import { createClient } from "../utils/supabase/client";
+import { createClient } from "../utils/supabase/client";
 import { Quiz, Question, MultChoiceQuestion, BudgetQuestion } from "../../lib/Quiz";
 
 export default function Home() {
@@ -44,7 +44,7 @@ export default function Home() {
   });
 
   // 3. Update state handler
-  const handleUpdate = (index, value) => {
+  const handleUpdate = (index: number, value: string | number) => {
     setAnswers((prev) => ({ ...prev, [`q${index}`]: value }));
   };
 
