@@ -178,7 +178,7 @@ export default function Home() {
                         type="number"
                         min={"minBudget" in info ? info.minBudget : 8520}
                         placeholder={`Min: $${"minBudget" in info ? info.minBudget : 8520}`}
-                        value=value={currentAnswer}
+                        value={currentAnswer}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => handleUpdate(index, e.target.value)}
                         className="p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       />
