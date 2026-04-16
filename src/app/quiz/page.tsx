@@ -68,7 +68,7 @@ export default function Home() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (isFormValid) {
-      
+
       const supabase = createClient();
       const translator = new TranslateResponse();
       
@@ -122,7 +122,7 @@ export default function Home() {
 
       // 4. Navigate to the results page
       // We'll use sessionStorage to pass the complex objects since they are large
-      const uiResults = filtered.map(dorm => dorm.dorm_list_UI_object());
+      const uiResults = filteredDorms.map(dorm => dorm.dorm_list_UI_object());
     
     // Encode the list into the URL
     const encodedData = encodeURIComponent(JSON.stringify(uiResults));
