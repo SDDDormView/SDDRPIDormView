@@ -8,7 +8,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
   
   let dorms = [];
   try {
-    // Decode the dorm list passed from the Quiz page
+    //get the dorm list, handle errors
     dorms = JSON.parse(decodeURIComponent(id));
   } catch (e) {
     console.error("Failed to parse dorm results", e);
@@ -18,7 +18,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
     <main className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-red-700 mb-8">Your Dorm Matches</h1>
-        
+
         {dorms.length > 0 ? (
           <div className="grid gap-6">
             {dorms.map((dorm: any, index: number) => (
