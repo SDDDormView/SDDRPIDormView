@@ -1,12 +1,22 @@
 "use client";
 
 import Link from 'next/link';
-import { useEffect, useRef, useState, FormEvent } from "react";
+import { useEffect, useRef, useState, FormEvent, ChangeEvent } from "react";
 import { DormBuilding } from "../../lib/DormBuilding";
 import { TranslateResponse } from "../dorms/TranslateResponse";
 import { DormRoomTypes } from "../../lib/DormRoomTypes";
 import { createClient } from "../utils/supabase/client";
 import { Quiz, Question, MultChoiceQuestion, BudgetQuestion } from "../../lib/Quiz";
+
+//interface to satisfy our vercel overlords
+interface QuizAnswers {
+  [key: string]: string | number;
+  q0: string;
+  q1: string;
+  q2: string;
+  q3: string;
+  q4: string | number;
+}
 
 export default function Home() {
 
@@ -39,7 +49,7 @@ export default function Home() {
   const questions = [q1, q2, q3, q4, q5];
 
   // 2. State to track answers
-  const [answers, setAnswers] = useState({
+  const [answers, setAnswers] = useState<QuizAnswers>({
     q0: "", q1: "", q2: "", q3: "", q4: ""
   });
 
