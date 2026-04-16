@@ -40,7 +40,7 @@ export default function Home() {
 
   // 2. State to track answers
   const [answers, setAnswers] = useState({
-    q1: "", q2: "", q3: "", q4: "", q5: ""
+    q0: "", q1: "", q2: "", q3: "", q4: ""
   });
 
   // 3. Update state handler
@@ -52,7 +52,7 @@ export default function Home() {
   // q4 (Budget) must be >= 8520
   const isFormValid = 
     questions.slice(0, 4).every((_, i) => answers[`q${i+1}` as keyof typeof answers] !== "") && 
-    Number(answers.q5) >= 8520;
+    Number(answers.q4) >= 8520;
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -86,14 +86,14 @@ export default function Home() {
                         <label 
                           key={option} 
                           className={`flex items-center p-3 border rounded-md cursor-pointer transition-colors ${
-                            answers[`q${index+1}`] === option ? "bg-red-50 border-red-500" : "hover:bg-gray-50"
+                            answers[`q${index}`] === option ? "bg-red-50 border-red-500" : "hover:bg-gray-50"
                           }`}
                         >
                           <input
                             type="radio"
                             name={`question-${index}`}
                             value={option}
-                            checked={answers[`q${index+1}`] === option}
+                            checked={answers[`q${index}`] === option}
                             onChange={() => handleUpdate(index, option)}
                             className="w-4 h-4 text-red-600 focus:ring-red-500"
                           />
@@ -108,7 +108,7 @@ export default function Home() {
                         type="number"
                         min={"minBudget" in info ? info.minBudget : 8520}
                         placeholder={`Min: $${q.min_value || 8520}`}
-                        value={answers[`q${index+1}`]}
+                        value={answers[`q${index}`]}
                         onChange={(e) => handleUpdate(index, e.target.value)}
                         className="p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
                       />
