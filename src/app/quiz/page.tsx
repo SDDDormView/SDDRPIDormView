@@ -47,23 +47,30 @@ export default function Home() {
   //queries db for all dorms, filters based on answers, 
   //takes user to another page that displays filtered dorm list
 
+  //question list
   const questions = [q1, q2, q3, q4, q5];
 
+  //store answers (0 indexed for ease of implementation)
   const [answers, setAnswers] = useState<QuizAnswers>({
     q0: "", q1: "", q2: "", q3: "", q4: ""
   });
 
+  //handle updates to answer fields
   const handleUpdate = (index: number, value: string | number) => {
     setAnswers((prev) => ({ ...prev, [`q${index}`]: value }));
   };
 
+  //check to make sure all questions answered correctly
   const isFormValid = 
     questions.slice(0, 4).every((_, i) => answers[`q${i}`] !== "") && 
     Number(answers.q4) >= 8520;
 
+  //this is the big one: query db for all dorms, handle response, filter dorm list based on answers, send results to the results page
   const handleSubmit = async (e: FormEvent) => {
+    //make sure form is valid
     e.preventDefault();
     if (isFormValid) {
+      //db querying, response handling
       const supabase = createClient();
       const translator = new TranslateResponse();
       
@@ -75,11 +82,14 @@ export default function Home() {
 
       let dormlist: DormBuilding[] = translator.translate_response(db_response);
 
+      //filter
       const filteredDorms = dormlist.filter((dorm) => {
         const attrs = dorm.get_attributes();
         
+        //years filter (q1)
         if (!attrs.get('years').includes(answers.q0)) return false;
 
+        //room types filter (q2)
         const roomTypes = attrs.get('room_types');
         const hasMatchingRoom = roomTypes.some((room: DormRoomTypes) => {
             const type = room.get_single_attributes('room_type').toLowerCase();
@@ -90,12 +100,15 @@ export default function Home() {
         });
         if (!hasMatchingRoom) return false;
 
+        //bathroom filter (q3)
         if (answers.q2.includes("as few people as possible")) {
             if (attrs.get('building_styles').includes("Traditional")) return false;
         }
 
+        //GI filter (q4)
         if (answers.q3 === "Yes" && !attrs.get('gender_inclusive')) return false;
 
+        //budget filter (q5)
         const withinBudget = roomTypes.some((room: DormRoomTypes) => 
             room.get_single_attributes('yearly_price') <= Number(answers.q4)
         );
@@ -104,6 +117,7 @@ export default function Home() {
         return true;
       });
 
+      //send results
       const uiResults = filteredDorms.map(dorm => dorm.dorm_list_UI_object());
       const encodedData = encodeURIComponent(JSON.stringify(uiResults));
       router.push(`/quiz/${encodedData}`);
