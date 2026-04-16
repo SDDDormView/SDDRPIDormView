@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, FormEvent } from "react";
 import { DormBuilding } from "../../lib/DormBuilding";
 import { TranslateResponse } from "../dorms/TranslateResponse";
 import { DormRoomTypes } from "../../lib/DormRoomTypes";
@@ -54,10 +54,9 @@ export default function Home() {
     questions.slice(0, 4).every((_, i) => answers[`q${i}` as keyof typeof answers] !== "") && 
     Number(answers.q4) >= 8520;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (isFormValid) {
-      console.log("Quiz Results Submitted:", answers);
       alert("Survey submitted! Check the console for data.");
     }
   };
