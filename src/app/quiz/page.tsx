@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from "react";
 import { DormBuilding } from "../../lib/DormBuilding";
-import { TranslateResponse } from "../../dorms/TranslateResponse";
+import { TranslateResponse } from "../dorms/TranslateResponse";
 import { DormRoomTypes } from "../../lib/DormRoomTypes";
 
 export default function Home() {
