@@ -49,69 +49,53 @@ export default function Home() {
 
   const questions = [q1, q2, q3, q4, q5];
 
-  // 2. State to track answers
   const [answers, setAnswers] = useState<QuizAnswers>({
     q0: "", q1: "", q2: "", q3: "", q4: ""
   });
 
-  // 3. Update state handler
   const handleUpdate = (index: number, value: string | number) => {
-    setAnswers((prev) => ({ ...prev, [`q${index+1}`]: value }));
+    setAnswers((prev) => ({ ...prev, [`q${index}`]: value }));
   };
 
-  // 4. Validation: Check if all questions are answered
-  // q4 (Budget) must be >= 8520
   const isFormValid = 
-    questions.slice(0, 4).every((_, i) => answers[`q${i+1}` as keyof typeof answers] !== "") && 
+    questions.slice(0, 4).every((_, i) => answers[`q${i}`] !== "") && 
     Number(answers.q4) >= 8520;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (isFormValid) {
-
       const supabase = createClient();
       const translator = new TranslateResponse();
       
-      // Fetch data
-      let query = supabase.from("Dorms").select("*");
-      const { data, error } = await query;
+      const { data, error } = await supabase.from("Dorms").select("*");
       
       const db_response = error
         ? { data: [], statusText: "ERROR", error: error.message }
         : { data: data, statusText: "OK" };
 
-      // Convert raw data to DormBuilding objects
       let dormlist: DormBuilding[] = translator.translate_response(db_response);
 
-      // 3. Filter the list based on quiz answers
       const filteredDorms = dormlist.filter((dorm) => {
         const attrs = dorm.get_attributes();
         
-        // Filter by Year (q0)
-        if (!attrs.get('years').includes(answers.q0[0])) return false;
+        if (!attrs.get('years').includes(answers.q0)) return false;
 
-        // Filter by Room Type Privacy (q1)
-        // Checks if any available room type matches the user's preference
         const roomTypes = attrs.get('room_types');
         const hasMatchingRoom = roomTypes.some((room: DormRoomTypes) => {
             const type = room.get_single_attributes('room_type').toLowerCase();
             if (answers.q1.includes("as few people as possible")) {
                 return type.includes("single") || type.includes("double");
             }
-            return true; // "Don't mind sharing" matches everything
+            return true;
         });
         if (!hasMatchingRoom) return false;
 
-        // Filter by Bathroom Privacy (q2)
         if (answers.q2.includes("as few people as possible")) {
             if (attrs.get('building_styles').includes("Traditional")) return false;
         }
 
-        // Filter by Gender Inclusive (q3)
         if (answers.q3 === "Yes" && !attrs.get('gender_inclusive')) return false;
 
-        // Filter by Budget (q4)
-        // Check if at least ONE room in the building is under the user's max budget
         const withinBudget = roomTypes.some((room: DormRoomTypes) => 
             room.get_single_attributes('yearly_price') <= Number(answers.q4)
         );
@@ -120,13 +104,9 @@ export default function Home() {
         return true;
       });
 
-      // 4. Navigate to the results page
-      // We'll use sessionStorage to pass the complex objects since they are large
       const uiResults = filteredDorms.map(dorm => dorm.dorm_list_UI_object());
-    
-    // Encode the list into the URL
-    const encodedData = encodeURIComponent(JSON.stringify(uiResults));
-    router.push(`/quiz/${encodedData}`);
+      const encodedData = encodeURIComponent(JSON.stringify(uiResults));
+      router.push(`/quiz/${encodedData}`);
     }
   };
 
@@ -149,7 +129,6 @@ export default function Home() {
                     {index + 1}. {info.text}
                   </h2>
 
-                  {/* Render Multiple Choice */}
                   {"options" in info && info.options ? (
                     <div className="flex flex-col gap-2">
                       {info.options.map((option: string) => (
@@ -172,7 +151,6 @@ export default function Home() {
                       ))}
                     </div>
                   ) : (
-                    /* Render Budget/Number Field */
                     <div className="flex flex-col gap-2">
                       <input
                         type="number"
