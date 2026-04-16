@@ -51,7 +51,7 @@ export default function Home() {
   // 4. Validation: Check if all questions are answered
   // q4 (Budget) must be >= 8520
   const isFormValid = 
-    questions.slice(0, 4).every((_, i) => answers[`q${i}`] !== "") && 
+    questions.slice(0, 4).every((_, i) => answers[`q${i}` as keyof typeof answers] !== "") && 
     Number(answers.q4) >= 8520;
 
   const handleSubmit = (e) => {
