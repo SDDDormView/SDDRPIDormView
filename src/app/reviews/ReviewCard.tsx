@@ -22,7 +22,7 @@ class reviewClient {
 
   async addReview(dormName: string, review: any) {
     const { data, error } = await this.supabase
-      .from("reviews")
+      .from("Reviews")
       .insert({
         dorm_name: review.dorm_name || dormName,
         author: review.author,
@@ -79,7 +79,7 @@ const ReviewCard: React.FC<ReviewProps> = ({ review }) => {
 
 const ReviewForm: React.FC<{}> = () => {
   const [author, setAuthor] = useState("");
-  const [dormName, setDormName] = useState("General");
+  const [dormName, setDormName] = useState("");
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(5);
   const [loading, setLoading] = useState(false);
@@ -105,7 +105,7 @@ const ReviewForm: React.FC<{}> = () => {
 
       // Reset form
       setAuthor("");
-      setDormName("General");
+      setDormName("");
       setContent("");
       setRating(5);
     } catch (error) {
