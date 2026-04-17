@@ -32,6 +32,9 @@ export default function Home() {
         const { data, error } = await supabase.auth.signUp({
             email,
             password,
+              options: {
+                emailRedirectTo: "https://sddrpi-dorm-view.vercel.app/"
+            }
         })
         // Supabase handles errors
         if (error) {
@@ -49,9 +52,10 @@ export default function Home() {
         alert("Account created!")
     }
 
-    // Handle password reset
+    // Handle password reset NOT WORKING YET
     const handleReset = async () => {
-        const { error } = await supabase.auth.resetPasswordForEmail(email)
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {redirectTo: "https://sddrpi-dorm-view.vercel.app/reset-password"}) 
+        // give this option to redirect to prod/reset-password
 
         if (error) alert(error.message)
         else alert("Reset email sent")
