@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import ReviewCard, { ReviewForm, initialReviews } from './ReviewCard';
 
@@ -9,7 +10,7 @@ const ReviewPage: React.FC = () => {
       <ReviewForm dormName="General" />
 
       <div className="mt-8 space-y-4">
-        {initialReviews.map((review) => (
+        {initialReviews && initialReviews.map((review) => (
           <ReviewCard key={review.date} review={review} />
         ))}
       </div>
