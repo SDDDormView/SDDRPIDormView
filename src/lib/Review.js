@@ -1,4 +1,6 @@
 //user reviews
+import { supabase } from '@/utils/supabase/client';
+
 class Review {
     //encapsulation
     #author;
@@ -25,8 +27,32 @@ class Review {
     }
 
     //method abstraction (simple interface, complex task)
-    addReview(dorm_name) {
-        //to be implemented
+    async addReview(dorm_name) {
+        try {
+            const reviewData = this.get_info();
+
+            const { data, error } = await supabase
+                .from('reviews')
+                .insert({
+                    dorm_name: dorm_name,
+                    author: reviewData.author,
+                    title: reviewData.title,
+                    content: reviewData.content,
+                    rating: reviewData.rating,
+                    timestamp: reviewData.timestamp
+                });
+
+            if (error) {
+                console.error('Error adding review to database:', error.message);
+                throw new Error(`Failed to add review: ${error.message}`);
+            }
+
+            console.log('Review added successfully:', data);
+            return data;
+        } catch (error) {
+            console.error('Exception in addReview:', error);
+            throw error;
+        }
     }
 }
 
