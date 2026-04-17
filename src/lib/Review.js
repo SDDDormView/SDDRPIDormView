@@ -1,55 +1,41 @@
 //user reviews
-import { supabase } from '../utils/supabase/client';
 
 class Review {
     //encapsulation
     #author;
-    #title;
     #content;
+    #dorm_name;
 
-    constructor(author, title, content, rating) {
+    constructor(author, content, rating, dorm_name) {
         this.#author = author;
-        this.#title = title;
         this.#content = content;
         this.rating = rating;
+        this.#dorm_name = dorm_name;
         this.timestamp = new Date();
     }
 
     //returns helper object for database storage and UI generation
     get_info() {
         return {
-            author: this.#author.get_author_string(),
-            title: this.#title,
+            author: this.#author,
             rating: this.rating,
             timestamp: this.timestamp,
-            content: this.#content
+            content: this.#content,
+            dorm_name: this.#dorm_name
         };
     }
 
     //method abstraction (simple interface, complex task)
-    async addReview(dorm_name) {
+    async addReview(reviewClientInstance) {
         try {
-            if (!supabase) {
-                throw new Error('Supabase is not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY environment variables.');
+            if (!reviewClientInstance) {
+                throw new Error('reviewClient instance is required');
             }
 
             const reviewData = this.get_info();
 
-            const { data, error } = await supabase
-                .from('reviews')
-                .insert({
-                    dorm_name: dorm_name,
-                    author: reviewData.author,
-                    title: reviewData.title,
-                    content: reviewData.content,
-                    rating: reviewData.rating,
-                    timestamp: reviewData.timestamp
-                });
-
-            if (error) {
-                console.error('Error adding review to database:', error.message);
-                throw new Error(`Failed to add review: ${error.message}`);
-            }
+            // Use the reviewClient instance to add review
+            const data = await reviewClientInstance.addReview(reviewData.dorm_name, reviewData);
 
             console.log('Review added successfully:', data);
             return data;
