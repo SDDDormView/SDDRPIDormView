@@ -76,8 +76,9 @@ const ReviewCard: React.FC<ReviewProps> = ({ review }) => {
   );
 };
 
-const ReviewForm: React.FC<{ dormName?: string }> = ({ dormName = "General" }) => {
+const ReviewForm: React.FC<{}> = () => {
   const [author, setAuthor] = useState("");
+  const [dormName, setDormName] = useState("General");
   const [content, setContent] = useState("");
   const [rating, setRating] = useState(5);
   const [loading, setLoading] = useState(false);
@@ -103,6 +104,7 @@ const ReviewForm: React.FC<{ dormName?: string }> = ({ dormName = "General" }) =
 
       // Reset form
       setAuthor("");
+      setDormName("General");
       setContent("");
       setRating(5);
     } catch (error) {
@@ -137,6 +139,15 @@ const ReviewForm: React.FC<{ dormName?: string }> = ({ dormName = "General" }) =
         className="w-full border rounded p-2"
         value={author}
         onChange={(e) => setAuthor(e.target.value)}
+        required
+      />
+
+      <input
+        type="text"
+        placeholder="Dorm Name"
+        className="w-full border rounded p-2"
+        value={dormName}
+        onChange={(e) => setDormName(e.target.value)}
         required
       />
 
