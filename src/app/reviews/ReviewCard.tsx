@@ -15,7 +15,7 @@ const initialReviews: ReviewData[] = [
   {
     name: "Alice",
     rating: 5,
-    comment: "Great product, highly recommend!",
+    comment: "Great dorm, highly recommend!",
     date: "2026-04-10",
   },
   {
