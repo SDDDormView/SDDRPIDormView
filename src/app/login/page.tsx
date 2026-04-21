@@ -24,7 +24,10 @@ export default function Home() {
 
         // Supabase handles errors
         if (error) alert(error.message)
-        else alert("Logged in!")
+        else {
+            alert("Logged in!")
+            window.location.href = "/"
+        }
     }
 
     // Handle signup
@@ -50,6 +53,7 @@ export default function Home() {
         }
 
         alert("Account created!")
+        window.location.href = "/"
     }
 
     // Handle password reset NOT WORKING YET
