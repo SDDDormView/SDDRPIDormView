@@ -26,7 +26,7 @@ const YEAR_CODE_MAP = {
 	Freshman: "F",
 	Sophomore: "S",
 	// fix this junior senor co term naming WRONG COLUMN DATA
-	"Junior, Senior, Co-term": "J",
+	"Junior, Senior, Co-term": "U",
 };
 
 const BUILDING_TYPE_MAP = {
