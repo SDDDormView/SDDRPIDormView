@@ -185,9 +185,10 @@ export default function DormDetailPage() {
 
         {/* image */}
         <img
-          src="/fieldrpi.jpg"
-          alt={dormName}
+          src={`/dorms/${dorm.get_dorm_name().replace(/\//g, "-")}.jpg`}
+          alt={dorm.get_dorm_name()}
           className="w-full h-64 object-cover rounded-2xl"
+          onError={(e) => { (e.target as HTMLImageElement).src = "/dorms/Crockett Hall.jpg"; }}
         />
 
         {/* stat cards */}

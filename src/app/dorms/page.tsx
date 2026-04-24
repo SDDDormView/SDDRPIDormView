@@ -26,7 +26,6 @@ export default function Home() {
   const [dorms, setDorms] = useState<DormBuilding[]>([]);
 
 
-
   useEffect(() => {
     const fetchDorms = async () => {
       const payload: Record<string, unknown> = {};
@@ -277,9 +276,10 @@ export default function Home() {
 
                     {/* Image */}
                     <img
-                      src="/fieldrpi.jpg"
+                      src={`/dorms/${dorm.get_dorm_name().replace(/\//g, "-")}.jpg`}
                       alt={dorm.get_dorm_name()}
-                      className="w-44 h-44 object-cover flex-shrink-0 group-hover:brightness-105 transition-all duration-200"
+                      className="w-44 h-44 object-cover flex-shrink-0"
+                      onError={(e) => { (e.target as HTMLImageElement).src = "/dorms/Crockett Hall.jpg"; }}
                     />
 
                     {/* Card content */}
