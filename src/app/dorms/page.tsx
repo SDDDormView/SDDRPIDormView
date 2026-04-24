@@ -26,7 +26,6 @@ export default function Home() {
   const [dorms, setDorms] = useState<DormBuilding[]>([]);
 
 
-
   useEffect(() => {
     const fetchDorms = async () => {
       const payload: Record<string, unknown> = {};
@@ -116,6 +115,49 @@ export default function Home() {
     setActiveTags((prev) => new Set([...prev, key]));
   }
 
+  // reusable filter checkbox component
+  function FilterCheckbox({
+    label,
+    active,
+    onClick,
+  }: {
+    label: string;
+    active: boolean;
+    onClick: () => void;
+  }) {
+    return (
+      <button
+        onClick={onClick}
+        className={`w-full flex items-center gap-3 px-2 py-2 rounded-lg text-sm transition-all duration-150 hover:bg-gray-700 ${
+          active ? "text-white" : "text-gray-400"
+        }`}
+      >
+        {/* Custom checkbox box */}
+        <span
+          className={`w-4 h-4 rounded flex-shrink-0 border flex items-center justify-center transition-all duration-150 ${
+            active
+              ? "bg-white border-white"
+              : "bg-transparent border-gray-500"
+          }`}
+        >
+          {active && (
+            <svg className="w-2.5 h-2.5 text-gray-900" viewBox="0 0 10 10" fill="none">
+              <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          )}
+        </span>
+        {label}
+      </button>
+    );
+  }
+
+    function Badge({ label }: { label: string }) {
+    return (
+      <span className="inline-block bg-gray-100 text-gray-500 text-xs font-medium px-2.5 py-0.5 rounded-full border border-gray-200">
+        {label}
+      </span>
+    );
+  }
 
 
   return (
@@ -127,119 +169,166 @@ export default function Home() {
 
       <div className="flex flex-1">
         {/* sidebar, where the filter is located */}
-        <div className="w-1/6 bg-gray-800 text-white p-4 py-8">
-          <h2 className="text-center text-xl font-bold mb-4">
-            Filter Options
+        <div className="w-1/6 bg-gray-900 text-white flex flex-col p-5 border-r border-gray-700">
+          <h2 className="text-center text-base font-bold tracking-wide uppercase text-gray-200 mb-6">
+            Filter
           </h2>
 
           {/* list of filter options */}
-           <p className="text-center text-lg my-4">Year</p>
-          <ul className="space-y-4">
+          <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">
+            Year
+          </p>
+          <ul className="space-y-1">
             {["Freshman", "Sophomore", "Junior, Senior, Co-term"].map((year) => (
-              <li key={year} className="flex items-center gap-2">
-                <input type="checkbox" className="w-4 h-4"
-                  checked={selectedYears.has(year)}
-                  onChange={() => toggleYear(year)} />
-                <p>{year}</p>
+              <li key={year}>
+                <FilterCheckbox
+                  label={year}
+                  active={selectedYears.has(year)}
+                  onClick={() => toggleYear(year)}
+                />
               </li>
             ))}
           </ul>
 
-          <div className="h-px bg-white my-4"></div>
+          <div className="h-px bg-gray-700 my-5" />
 
-          <p className="text-center text-lg my-4">Room Type</p>
-          <ul className="space-y-4">
+          <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">
+            Room Type
+          </p>
+          <ul className="space-y-1">
             {["Traditional", "Suite", "Apartment"].map((type) => (
-              <li key={type} className="flex items-center gap-2">
-                <input type="checkbox" className="w-4 h-4"
-                  checked={selectedRoomTypes.has(type)}
-                  onChange={() => toggleRoomType(type)} />
-                <p>{type}</p>
+              <li key={type}>
+                <FilterCheckbox
+                  label={type}
+                  active={selectedRoomTypes.has(type)}
+                  onClick={() => toggleRoomType(type)}
+                />
               </li>
             ))}
           </ul>
 
-          <div className="h-px bg-white my-4"></div>
+          <div className="h-px bg-gray-700 my-5" />
 
-          <p className="text-center text-lg my-4">Room Availability</p>
-          <ul className="space-y-4">
+          <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">
+            Room Availability
+          </p>
+          <ul className="space-y-1">
             {["Single", "Double", "Triple"].map((type) => (
-              <li key={type} className="flex items-center gap-2">
-                <input type="checkbox" className="w-4 h-4"
-                  checked={selectedRoomAvailability.has(type)}
-                  onChange={() => toggleRoomAvailability(type)} />
-                <p>{type}</p>
+              <li key={type}>
+                <FilterCheckbox
+                  label={type}
+                  active={selectedRoomAvailability.has(type)}
+                  onClick={() => toggleRoomAvailability(type)}
+                />
               </li>
             ))}
           </ul>
         </div>
 
         {/* dorm list main body */}
-        <div className="w-5/6 bg-gray-100 p-6 space-y-4">
-          <h1 className="text-center text-4xl font-bold">
-            Dorms
-          </h1>
-          {/* Filter by tag bool TRUE TO DO: exclude filter */}
-          <div className="flex items-center gap-1 bg-gray-200 rounded-lg px-4 py-2">
-            <span className="text-sm text-gray-400 mr-1">Filters:</span>
-            {BOOL_TAGS.map((tag, i) => {
+        <div className="w-5/6 p-8 space-y-6">
+
+          {/* Page header */}
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Dorms</h1>
+            <p className="text-sm text-gray-400 mt-1">
+              {displayedDorms.length} {displayedDorms.length === 1 ? "result" : "results"}
+            </p>
+          </div>
+
+          {/* Quick filter pills */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">
+              Quick filters:
+            </span>
+            {BOOL_TAGS.map((tag) => {
               const isActive = activeTags.has(tag.key);
               return (
-                <span key={tag.key} className="flex items-center gap-1">
-                  <button
-                    onClick={() => isActive ? removeTag(tag.key) : addTag(tag.key)}
-                    className="text-sm px-1.5 py-0.5 rounded transition-colors"
-                    style={{
-                      fontWeight: isActive ? 500 : 400,
-                      textDecoration: isActive ? "underline" : "none",
-                      color: isActive ? "inherit" : "#9ca3af",
-                      background: "none",
-                      border: "none",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {tag.label}
-                  </button>
-                  {i < BOOL_TAGS.length - 1 && (
-                    <span className="text-gray-300 text-sm select-none">·</span>
-                  )}
-                </span>
+                <button
+                  key={tag.key}
+                  onClick={() => (isActive ? removeTag(tag.key) : addTag(tag.key))}
+                  className={`text-xs font-medium px-3 py-1.5 rounded-full border transition-all duration-150 ${
+                    isActive
+                      ? "bg-gray-900 text-white border-gray-900"
+                      : "bg-white text-gray-500 border-gray-300 hover:border-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  {tag.label}
+                </button>
               );
             })}
           </div>
 
+          {/* Empty state */}
           {displayedDorms.length === 0 && (
-            <p className="text-center text-gray-500">No dorms found.</p>
+            <div className="flex flex-col items-center justify-center py-24 text-center">
+              <p className="text-gray-400 text-lg font-medium">No dorms match your filters.</p>
+              <p className="text-gray-300 text-sm mt-1">Try adjusting or clearing some filters.</p>
+            </div>
           )}
 
-          {/* dorm list */}
-          {/* works based on elements in dorms object list */}
+          {/* Dorm cards */}
           <ul className="space-y-4">
             {displayedDorms.map((dorm, index) => (
               <li key={index}>
                 <Link href={`/dorms/${encodeURIComponent(dorm.get_dorm_name())}`}>
-                  <div className="flex p-4 bg-gray-400 rounded space-x-4 hover:bg-gray-500">
-                    {/* Image TO DO: store images in db? cost? store images in public folder grab from there? */}
-                    <img src="/fieldrpi.jpg" alt="86 field" className="w-48 h-48 object-cover rounded" />
+                  <div className="flex bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-md hover:border-gray-300 transition-all duration-200 group">
 
-                    {/* Header */}
-                    <div className="flex flex-col w-full space-y-4">
-                      <div className="text-lg font-bold underline">
-                        Dorm: {dorm.get_dorm_name()}
+                    {/* Image */}
+                    <img
+                      src={`/dorms/${dorm.get_dorm_name().replace(/\//g, "-")}.jpg`}
+                      alt={dorm.get_dorm_name()}
+                      className="w-44 h-44 object-cover flex-shrink-0"
+                      onError={(e) => { (e.target as HTMLImageElement).src = "/dorms/Crockett Hall.jpg"; }}
+                    />
+
+                    {/* Card content */}
+                    <div className="flex flex-col justify-between p-5 w-full">
+                      <div>
+                        {/* Dorm name */}
+                        <h2 className="text-lg font-semibold text-gray-900 mb-3 group-hover:text-gray-600 transition-colors">
+                          {dorm.get_dorm_name()}
+                        </h2>
+
+                        {/* Attributes grid */}
+                        <div className="grid grid-cols-3 gap-x-6 gap-y-1.5 text-sm text-gray-600">
+                          <p>
+                            <span className="font-medium text-gray-800">Year: </span>
+                            {dorm.get_attributes()?.get("years") ?? "—"}
+                          </p>
+                          <p>
+                            <span className="font-medium text-gray-800">Room Types: </span>
+                            {dorm.get_attributes()?.get("building_styles") ?? "—"}
+                          </p>
+                          <p>
+                            <span className="font-medium text-gray-800">Dining Hall: </span>
+                            {dorm.get_attributes()?.get("nearest_dining_hall") ?? "—"}
+                          </p>
+                          <p>
+                            <span className="font-medium text-gray-800">GI Housing: </span>
+                            {dorm.get_attributes()?.get("gender_inclusive") ? "Yes" : "No"}
+                          </p>
+                          <p>
+                            <span className="font-medium text-gray-800">Carpet: </span>
+                            {dorm.get_amenities()?.get("carpet") ? "Yes" : "No"}
+                          </p>
+                          <p>
+                            <span className="font-medium text-gray-800">A/C: </span>
+                            {dorm.get_amenities()?.get("air_conditioning") ? "Yes" : "No"}
+                          </p>
+                          <p>
+                            <span className="font-medium text-gray-800">Elevator: </span>
+                            {dorm.get_amenities()?.get("elevator") ? "Yes" : "No"}
+                          </p>
+                        </div>
                       </div>
 
-                      {/* Attributes per dorm */}
-                      <div className="grid grid-cols-3 gap-4">
-                        <p>Year: {dorm.get_attributes()?.get("years") ?? "—"}</p>
-                        <p>Room Types: {dorm.get_attributes()?.get("building_styles") ?? "—"}</p>
-                        <p>Nearest dining hall: {dorm.get_attributes()?.get("nearest_dining_hall") ?? "—"}</p>
-                        <p>GI Housing: {dorm.get_attributes()?.get("gender_inclusive") ? "Yes" : "No"}</p>
-                        <p>Carpet: {dorm.get_amenities()?.get("carpet") ? "Yes" : "No"}</p>
-                        <p>A/C: {dorm.get_amenities()?.get("air_conditioning") ? "Yes" : "No"}</p>
-                        <p>Elevator: {dorm.get_amenities()?.get("elevator") ? "Yes" : "No"}</p>
+                      {/* Tag badges */}
+                      <div className="flex gap-2 mt-4 flex-wrap">
+                        <Badge label="Ethernet" />
+                        <Badge label="Bike Rack" />
+                        <Badge label="Elevator" />
                       </div>
-
-                      <p className="font-bold">Tags: ethernet, bike rack, elevator</p>
                     </div>
                   </div>
                 </Link>
@@ -249,5 +338,5 @@ export default function Home() {
         </div>
       </div>
     </main>
-  )
+  );
 }
