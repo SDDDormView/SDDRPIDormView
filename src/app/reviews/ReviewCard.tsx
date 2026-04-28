@@ -64,7 +64,7 @@ class reviewClient {
     if (error) {
       throw new Error(error.message);
     }
-    return data ? data.map((d: { dorm_name: string }) => d.dorm_name) : [];
+    return data ? data.map((d: { Dorm: string }) => d.Dorm) : [];
   }
 }
 
