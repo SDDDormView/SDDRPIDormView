@@ -107,9 +107,6 @@ const ReviewForm: React.FC<{}> = () => {
         const client = new reviewClient();
         const dormList = await client.getDormNames();
         setDorms(dormList);
-        if (dormList.length > 0) {
-          setDormName(dormList[0]);
-        }
       } catch (error) {
         console.error('Failed to load dorms:', error);
         setMessage({
@@ -144,7 +141,7 @@ const ReviewForm: React.FC<{}> = () => {
 
       // Reset form
       setAuthor("");
-      setDormName(dorms.length > 0 ? dorms[0] : "");
+      setDormName("");
       setContent("");
       setRating(5);
     } catch (error) {
