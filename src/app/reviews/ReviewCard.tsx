@@ -144,7 +144,7 @@ const ReviewForm: React.FC<{}> = () => {
 
       // Reset form
       setAuthor("");
-      setDormName(dorms.length > 0 ? dorms[0] : "");
+      setDormName("");
       setContent("");
       setRating(5);
     } catch (error) {
