@@ -1,6 +1,6 @@
 'use client';
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Review } from "../../lib/Review.js";
 import { createClient } from "../utils/supabase/client";
 
@@ -56,6 +56,16 @@ class reviewClient {
     }
     return data;
   }
+  async getDormNames(): Promise<string[]> {
+    const { data, error } = await this.supabase
+      .from("Dorms")
+      .select("dorm_name")
+      .order("dorm_name", { ascending: true });
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data ? data.map((d: { dorm_name: string }) => d.dorm_name) : [];
+  }
 }
 
 type ReviewProps = {
@@ -88,6 +98,31 @@ const ReviewForm: React.FC<{}> = () => {
   const [rating, setRating] = useState(5);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [dorms, setDorms] = useState<string[]>([]);
+  const [dormsLoading, setDormsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadDorms = async () => {
+      try {
+        const client = new reviewClient();
+        const dormList = await client.getDormNames();
+        setDorms(dormList);
+        if (dormList.length > 0) {
+          setDormName(dormList[0]);
+        }
+      } catch (error) {
+        console.error('Failed to load dorms:', error);
+        setMessage({
+          type: 'error',
+          text: 'Failed to load dorm list'
+        });
+      } finally {
+        setDormsLoading(false);
+      }
+    };
+
+    loadDorms();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,7 +144,7 @@ const ReviewForm: React.FC<{}> = () => {
 
       // Reset form
       setAuthor("");
-      setDormName("");
+      setDormName(dorms.length > 0 ? dorms[0] : "");
       setContent("");
       setRating(5);
     } catch (error) {
@@ -147,14 +182,22 @@ const ReviewForm: React.FC<{}> = () => {
         required
       />
 
-      <input
-        type="text"
-        placeholder="Dorm Name"
+      <select
         className="w-full border rounded p-2"
         value={dormName}
         onChange={(e) => setDormName(e.target.value)}
+        disabled={dormsLoading}
         required
-      />
+      >
+        <option value="">
+          {dormsLoading ? "Loading dorms..." : "Select a dorm"}
+        </option>
+        {dorms.map((dorm) => (
+          <option key={dorm} value={dorm}>
+            {dorm}
+          </option>
+        ))}
+      </select>
 
       <select
         className="w-full border rounded p-2"
