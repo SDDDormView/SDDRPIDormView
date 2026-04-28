@@ -59,8 +59,8 @@ class reviewClient {
   async getDormNames(): Promise<string[]> {
     const { data, error } = await this.supabase
       .from("Dorms")
-      .select("dorm_name")
-      .order("dorm_name", { ascending: true });
+      .select("Dorm")
+      .order("Dorm", { ascending: true });
     if (error) {
       throw new Error(error.message);
     }
