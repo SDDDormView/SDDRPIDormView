@@ -26,35 +26,8 @@ const YEAR_CODE_MAP = {
 	Freshman: "F",
 	Sophomore: "S",
 	// fix this junior senor co term naming WRONG COLUMN DATA
-	"Junior, Senior, Co-term": "J",
+	"Junior, Senior, Co-term": "U",
 };
-
-const BUILDING_TYPE_MAP = {
-	// Different from room type fix
-	Suite: "Suite",
-	Traditional: "Traditional",
-	Apartment: "Apartment",
-	Suite_Traditional: "Suite/Traditional",
-}
-
-const RESTROOMS_MAP = {
-	// Do we need map for Restroom as filter?
-	Room: "R",
-	Floor: "F",
-	Room_Floor: "RF",
-}
-
-const MATTRESS_SIZE_MAP = {
-	// idk if we need mattress size filter
-}
-
-const NEAREST_DINING_MAP = {
-	// fixing DINING naming for blitman and RSDH
-	Barh: "BARH",
-	Commons: "Commons",
-	Blitman: "Blitman",
-	Rsdh: "RSDH",
-}
 
 const EXACT_MATCH_FILTERS = new Set([
 	// attribute filters not dorm stuff like years
@@ -72,8 +45,6 @@ const EXACT_MATCH_FILTERS = new Set([
 	"building_styles",
 	"restrooms",
 ]);
-
-
 
 export class QueryDatabase {
 	constructor() {

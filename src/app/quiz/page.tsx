@@ -1,12 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, FormEvent, ChangeEvent } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 import { DormBuilding } from "../../lib/DormBuilding";
 import { TranslateResponse } from "../dorms/TranslateResponse";
 import { DormRoomTypes } from "../../lib/DormRoomTypes";
 import { createClient } from "../utils/supabase/client";
-import { Quiz, Question, MultChoiceQuestion, BudgetQuestion } from "../../lib/Quiz";
+import { MultChoiceQuestion, BudgetQuestion } from "../../lib/Quiz";
 
 //interface to satisfy our vercel overlords
 interface QuizAnswers {
@@ -16,7 +16,7 @@ interface QuizAnswers {
   q2: string;
   q3: string;
   q4: string | number;
-}
+};
 
 export default function Home() {
   const router = useRouter();
@@ -40,7 +40,7 @@ export default function Home() {
   const q4 = new MultChoiceQuestion("Do you require/would you prefer gender inclusive housing?", ["Yes", "No"], "gender_inclusive");
   //Question 5: What is you maximum budget for housing for the full year ahead in dollars?
     //number field with minimum bound
-  const q5 = new BudgetQuestion("What is you maximum budget for housing for the full year ahead in dollars?", 8520);
+  const q5 = new BudgetQuestion("What is your maximum budget for housing for the full year ahead in dollars?", 8520);
 
   //all fields must have a valid answer selected to submit with submit button
   //clicking submit button collects all answers provided,
@@ -80,7 +80,7 @@ export default function Home() {
         ? { data: [], statusText: "ERROR", error: error.message }
         : { data: data, statusText: "OK" };
 
-      let dormlist: DormBuilding[] = translator.translate_response(db_response);
+      const dormlist: DormBuilding[] = translator.translate_response(db_response);
 
       //filter
       const filteredDorms = dormlist.filter((dorm) => {
