@@ -26,7 +26,7 @@ export default function Home() {
 
   //question 1: What year will you be entering
     //Freshman, Sophomore, Junior/Senior/Co-op
-  const q1 = new MultChoiceQuestion("What year will you be entering?", ["Freshman", "Sophomore", "Junior/Senior/Co-op"], 'years');
+  const q1 = new MultChoiceQuestion("What year will you be entering?", ["Freshman", "Sophomore", "Junior, Senior, Co-term"], 'years');
   //question 2: How do you feel about sharing a bedroom with other people?
     //I would like to share a bedroom with as few people as possible
     //I don't mind sharing a bedroom/would like to share a bedroom with friends
@@ -44,7 +44,7 @@ export default function Home() {
 
   //all fields must have a valid answer selected to submit with submit button
   //clicking submit button collects all answers provided,
-  //queries db for all dorms, filters based on answers, 
+  //queries db for all dorms, filters based on answers,
   //takes user to another page that displays filtered dorm list
 
   //question list
@@ -61,8 +61,8 @@ export default function Home() {
   };
 
   //check to make sure all questions answered correctly
-  const isFormValid = 
-    questions.slice(0, 4).every((_, i) => answers[`q${i}`] !== "") && 
+  const isFormValid =
+    questions.slice(0, 4).every((_, i) => answers[`q${i}`] !== "") &&
     Number(answers.q4) >= 8520;
 
   //this is the big one: query db for all dorms, handle response, filter dorm list based on answers, send results to the results page
@@ -73,9 +73,9 @@ export default function Home() {
       //db querying, response handling
       const supabase = createClient();
       const translator = new TranslateResponse();
-      
+
       const { data, error } = await supabase.from("Dorms").select("*");
-      
+
       const db_response = error
         ? { data: [], statusText: "ERROR", error: error.message }
         : { data: data, statusText: "OK" };
@@ -85,7 +85,7 @@ export default function Home() {
       //filter
       const filteredDorms = dormlist.filter((dorm) => {
         const attrs = dorm.get_attributes();
-        
+
         //years filter (q1)
         if (!attrs.get('years').includes(answers.q0)) return false;
 
@@ -109,7 +109,7 @@ export default function Home() {
         if (answers.q3 === "Yes" && !attrs.get('gender_inclusive')) return false;
 
         //budget filter (q5)
-        const withinBudget = roomTypes.some((room: DormRoomTypes) => 
+        const withinBudget = roomTypes.some((room: DormRoomTypes) =>
             room.get_single_attributes('yearly_price') <= Number(answers.q4)
         );
         if (!withinBudget) return false;
@@ -146,8 +146,8 @@ export default function Home() {
                   {"options" in info && info.options ? (
                     <div className="flex flex-col gap-2">
                       {info.options.map((option: string) => (
-                        <label 
-                          key={option} 
+                        <label
+                          key={option}
                           className={`flex items-center p-3 border rounded-md cursor-pointer transition-colors ${
                             currentAnswer === option ? "bg-red-50 border-red-500" : "hover:bg-gray-50"
                           }`}
@@ -188,8 +188,8 @@ export default function Home() {
             type="submit"
             disabled={!isFormValid}
             className={`w-full py-4 rounded-lg font-bold text-white transition-all ${
-              isFormValid 
-                ? "bg-red-600 hover:bg-red-700 shadow-lg" 
+              isFormValid
+                ? "bg-red-600 hover:bg-red-700 shadow-lg"
                 : "bg-gray-300 cursor-not-allowed"
             }`}
           >
