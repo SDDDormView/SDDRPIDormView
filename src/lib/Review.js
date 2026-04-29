@@ -1,5 +1,4 @@
 //user reviews
-
 class Review {
     //encapsulation
     #author;
