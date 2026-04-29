@@ -128,8 +128,8 @@ export class DormBuilding{
 	//dorm page: dorm list
 	dorm_list_UI_object(){
 		//list object to string
-		let years_string = ''
-		for (let i = 0; i<this.#attributes.get('years').length; i++){
+		let years_string = '';
+		for (let i = 0; i < this.#attributes.get('years').length; i++){
 			if (i == this.#attributes.get('years').length-1){
 				years_string += this.#attributes.get('years')[i];
 			} else {
@@ -137,8 +137,8 @@ export class DormBuilding{
 			} 
 		}
 		//list object to string
-		let room_types_string = ''
-		for (let i = 0; i<this.#attributes.get('room_types').length; i++){
+		let room_types_string = '';
+		for (let i = 0; i < this.#attributes.get('room_types').length; i++){
 			if (i == this.#attributes.get('room_types').length-1){
 				room_types_string += this.#attributes.get('room_types')[i].get_single_attributes('room_type') + `($${this.#attributes.get('room_types')[i].get_single_attributes('yearly_price')})`;
 			} else {
@@ -146,8 +146,8 @@ export class DormBuilding{
 			} 
 		}
 		//list object to string
-		let building_styles_string = ''
-		for (let i = 0; i<this.#attributes.get('building_styles').length; i++){
+		let building_styles_string = '';
+		for (let i = 0; i < this.#attributes.get('building_styles').length; i++){
 			if (i == this.#attributes.get('building_styles').length-1){
 				building_styles_string += this.#attributes.get('building_styles')[i];
 			} else {
@@ -167,8 +167,8 @@ export class DormBuilding{
 	//dorm details page
 	dorm_details_UI_object(){
 		//list object to string
-		let years_string = ''
-		for (let i = 0; i<this.#attributes.get('years').length; i++){
+		let years_string = '';
+		for (let i = 0; i < this.#attributes.get('years').length; i++){
 			if (i == this.#attributes.get('years').length-1){
 				years_string += this.#attributes.get('years')[i];
 			} else {
@@ -176,8 +176,8 @@ export class DormBuilding{
 			} 
 		}
 		//list object to string
-		let room_types_string = ''
-		for (let i = 0; i<this.#attributes.get('room_types').length; i++){
+		let room_types_string = '';
+		for (let i = 0; i < this.#attributes.get('room_types').length; i++){
 			if (i == this.#attributes.get('room_types').length-1){
 				room_types_string += this.#attributes.get('room_types')[i].get_single_attributes('room_type') + `($${this.#attributes.get('room_types')[i].get_single_attributes('yearly_price')})`;
 			} else {
@@ -185,8 +185,8 @@ export class DormBuilding{
 			} 
 		}
 		//list object to string
-		let building_styles_string = ''
-		for (let i = 0; i<this.#attributes.get('building_styles').length; i++){
+		let building_styles_string = '';
+		for (let i = 0; i < this.#attributes.get('building_styles').length; i++){
 			if (i == this.#attributes.get('building_styles').length-1){
 				building_styles_string += this.#attributes.get('building_styles')[i];
 			} else {

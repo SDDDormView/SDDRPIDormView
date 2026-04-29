@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 import { TranslateResponse } from "../TranslateResponse.js";
 import { DormBuilding } from "../../../lib/DormBuilding";
+import { DormRoomTypes } from "../../../lib/DormRoomTypes";
 
 //small helpers
 
@@ -185,9 +186,10 @@ export default function DormDetailPage() {
 
         {/* image */}
         <img
-          src="/fieldrpi.jpg"
-          alt={dormName}
+          src={`/dorms/${dorm.get_dorm_name().replace(/\//g, "-")}.jpg`}
+          alt={dorm.get_dorm_name()}
           className="w-full h-64 object-cover rounded-2xl"
+          onError={(e) => { (e.target as HTMLImageElement).src = "/dorms/Crockett Hall.jpg"; }}
         />
 
         {/* stat cards */}
@@ -272,7 +274,7 @@ export default function DormDetailPage() {
               Room Pricing
             </h2>
             <div className="grid grid-cols-3 gap-3">
-              {roomTypes.map((rt: any, i: number) => {
+              {roomTypes.map((rt: DormRoomTypes, i: number) => {
                 const rtAttrs = rt.get_attributes();
                 const type = rtAttrs?.get("room_type");
                 const styles = getRoomTypeStyles(type);

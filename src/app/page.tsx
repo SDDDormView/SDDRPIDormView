@@ -163,7 +163,7 @@ export default function Home() {
             className="text-white text-xl"
             style={{ textShadow: "1px 1px 0px black" }}
           >
-            John  Polytechnic
+            Quadrangle (Quad)
           </p>
         </div>
         {/* LEFT AND RIGHT ARROW SCROLLS */}
@@ -171,9 +171,9 @@ export default function Home() {
         <section className="relative left-5 bg-gray-200 rounded-lg w-full">
           {/* HEADER - Dorm Name, Location, etc... */}
           <div className = "flex items-left gap-4">
-            <p className="text-1xl italic px-5 py-2">Dorm: John Polytechnic</p>
+            <p className="text-1xl italic px-5 py-2">Dorm: Quadrangle (Quad)</p>
             <p className="text-1xl italic px-5 py-2">Room Types: Single, Double, Triple</p>
-            <p className="text-1xl italic px-5 py-2">Student Rating: 4.5/5</p>
+            <p className="text-1xl italic px-5 py-2">Student Rating: -/5</p>
           </div>
 
           {/* DESCRIPTION - General description of dorm*/}
@@ -183,15 +183,10 @@ export default function Home() {
               Description
             </h1>
             <p className="whitespace-pre-line">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut venenatis tortor at nisi varius, vitae sodales nisl efficitur.
-              Aenean scelerisque tincidunt odio, at imperdiet lacus malesuada a. Praesent suscipit lectus vel sagittis congue. Nam sit amet bibendum justo. 
-              Proin lobortis dapibus nibh non sollicitudin. Vivamus scelerisque lectus eu dui fermentum, ac tempus ipsum euismod. 
-              Aenean venenatis eget augue id lobortis. Aenean porta, ligula et tempus viverra, felis leo sagittis elit, ut sagittis lacus massa sit amet quam. 
-              Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
-              Interdum et malesuada fames ac ante ipsum primis in faucibus.
-              Quisque non luctus orci. Morbi sit amet semper lacus. Praesent a dui a nisl dapibus congue a et leo. Quisque et dapibus ex, id hendrerit purus. 
-              Phasellus condimentum, leo non condimentum aliquet, mauris felis suscipit est, ac laoreet lectus orci eget metus. Vivamus mollis tempus quam eget viverra. 
-              Nam vitae scelerisque lorem.
+              Quadrangle dorm is a dorm currently reserved for sophomores. It features both suite and traditional style room setups.
+              Room types are triples, doubles, and singles costing $8520, $9750, and $11040 for a full year.
+              133 total students reside here when the dorm is full, with 12 student staff available. Gender inclusive housing is available.
+              Amenities available include A/C, WiFi, ethernet, floor lounges, kitchenettes, laundry, printers, and more.
             </p>
 
           </div>
