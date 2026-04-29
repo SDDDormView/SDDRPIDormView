@@ -60,7 +60,6 @@ export default function Navbar() {
     { name: "Map", href: "/map" },
     { name: "Quiz", href: "/quiz" },
     { name: "Dorms", href: "/dorms" },
-    { name: "Reviews", href: "/reviews" },
   ];
 
   return (
@@ -71,19 +70,21 @@ export default function Navbar() {
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
 
-        
+
         <div className="flex items-center gap-3">
-          <img
-            src="/logo.svg"
-            alt="Logo"
-            className="w-8 h-8 object-contain"
-          />
-          <span className="text-white font-semibold text-lg">
-            RPI Dorm View
-          </span>
+          <a href= "/">
+            <img
+              src="/logo.svg"
+              alt="Logo"
+              className="w-8 h-8 object-contain"
+            />
+            <span className="text-white font-semibold text-lg">
+              RPI Dorm View
+            </span>
+          </a>
         </div>
 
-        
+
         <nav className="flex items-center gap-6">
           {navLinks.map((link) => {
             const isActive = pathname === link.href
@@ -102,6 +103,14 @@ export default function Navbar() {
               </Link>
             )
           })}
+
+          <a href="/reviews" className={`text-white transition-all ${
+                  pathname === "/reviews"
+                    ? "text-lg font-semibold"
+                    : "text-base hover:text-gray-300"
+                }`}>
+              Reviews
+          </a>
 
           {/* LOGIN/LOGOUT */}
           {!user ? (

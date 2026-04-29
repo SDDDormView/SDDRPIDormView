@@ -3,6 +3,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Review } from "../../lib/Review.js";
 import { createClient } from "../utils/supabase/client";
+import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
 
 // helper type for review data
 type ReviewData = {
@@ -100,6 +101,33 @@ const ReviewForm: React.FC<{}> = () => {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [dorms, setDorms] = useState<string[]>([]);
   const [dormsLoading, setDormsLoading] = useState(true);
+  const [user, setUser] = useState<any>(null);
+  const [userLoading, setUserLoading] = useState(true);
+
+  useEffect(() => {
+    const supabase = createClient();
+
+    // Use onAuthStateChange to listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event: AuthChangeEvent, session: Session | null) => {
+        const currentUser = session?.user || null;
+        setUser(currentUser);
+        setUserLoading(false);
+      }
+    );
+
+    // Also check immediately in case the session is already loaded
+    supabase.auth.getSession().then(({ data: { session } }: { data: { session: Session | null } }) => {
+      if (session?.user) {
+        setUser(session.user);
+      }
+      setUserLoading(false);
+    });
+
+    return () => {
+      subscription?.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     const loadDorms = async () => {
@@ -155,75 +183,89 @@ const ReviewForm: React.FC<{}> = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <h2 className="text-xl font-semibold">Leave a Review</h2>
-
-      {message && (
-        <div
-          className={`p-3 rounded ${
-            message.type === 'success'
-              ? 'bg-green-100 text-green-700'
-              : 'bg-red-100 text-red-700'
-          }`}
-        >
-          {message.text}
+    <>
+      {userLoading ? (
+        <div className="p-4 text-gray-500">Loading...</div>
+      ) : !user ? (
+        <div className="border rounded-xl p-4 shadow-sm bg-yellow-50">
+          <h2 className="text-xl font-semibold mb-2">Leave a Review</h2>
+          <p className="text-gray-700">You must be logged in to submit a review.</p>
+          <a href="/login" className="text-blue-600 hover:underline mt-2 inline-block">
+            Log in here
+          </a>
         </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <h2 className="text-xl font-semibold">Leave a Review</h2>
+
+          {message && (
+            <div
+              className={`p-3 rounded ${
+                message.type === 'success'
+                  ? 'bg-green-100 text-green-700'
+                  : 'bg-red-100 text-red-700'
+              }`}
+            >
+              {message.text}
+            </div>
+          )}
+
+          <input
+            type="text"
+            placeholder="Your name"
+            className="w-full border rounded p-2"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+            required
+          />
+
+          <select
+            className="w-full border rounded p-2"
+            value={dormName}
+            onChange={(e) => setDormName(e.target.value)}
+            disabled={dormsLoading}
+            required
+          >
+            <option value="">
+              {dormsLoading ? "Loading dorms..." : "Select a dorm"}
+            </option>
+            {dorms.map((dorm) => (
+              <option key={dorm} value={dorm}>
+                {dorm}
+              </option>
+            ))}
+          </select>
+
+          <select
+            className="w-full border rounded p-2"
+            value={rating}
+            onChange={(e) => setRating(Number(e.target.value))}
+          >
+            {[5, 4, 3, 2, 1].map((r) => (
+              <option key={r} value={r}>
+                {r} Stars
+              </option>
+            ))}
+          </select>
+
+          <textarea
+            placeholder="Write your review..."
+            className="w-full border rounded p-2"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="bg-black text-white px-4 py-2 rounded hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? "Submitting..." : "Submit"}
+          </button>
+        </form>
       )}
-
-      <input
-        type="text"
-        placeholder="Your name"
-        className="w-full border rounded p-2"
-        value={author}
-        onChange={(e) => setAuthor(e.target.value)}
-        required
-      />
-
-      <select
-        className="w-full border rounded p-2"
-        value={dormName}
-        onChange={(e) => setDormName(e.target.value)}
-        disabled={dormsLoading}
-        required
-      >
-        <option value="">
-          {dormsLoading ? "Loading dorms..." : "Select a dorm"}
-        </option>
-        {dorms.map((dorm) => (
-          <option key={dorm} value={dorm}>
-            {dorm}
-          </option>
-        ))}
-      </select>
-
-      <select
-        className="w-full border rounded p-2"
-        value={rating}
-        onChange={(e) => setRating(Number(e.target.value))}
-      >
-        {[5, 4, 3, 2, 1].map((r) => (
-          <option key={r} value={r}>
-            {r} Stars
-          </option>
-        ))}
-      </select>
-
-      <textarea
-        placeholder="Write your review..."
-        className="w-full border rounded p-2"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        required
-      />
-
-      <button
-        type="submit"
-        disabled={loading}
-        className="bg-black text-white px-4 py-2 rounded hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {loading ? "Submitting..." : "Submit"}
-      </button>
-    </form>
+    </>
   );
 };
 
