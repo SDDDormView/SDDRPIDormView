@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function ResultsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  
+
   let dorms = [];
   try {
     //get the dorm list, handle errors
@@ -20,9 +20,10 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
         <h1 className="text-3xl font-bold text-red-700 mb-8">Your Dorm Matches</h1>
 
         {dorms.length > 0 ? (
+
           <div className="grid gap-6">
             {dorms.map((dorm: any, index: number) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-600">
+              <li key={index} className="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-600">
                 <h2 className="text-xl font-bold text-gray-900">{dorm.dorm_name}</h2>
                 <div className="mt-2 grid grid-cols-2 gap-4 text-sm text-gray-600">
                   <p><strong>Available for:</strong> {dorm.years}</p>
@@ -30,7 +31,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
                   <p className="col-span-2"><strong>Room Types:</strong> {dorm.room_types_prices}</p>
                   <p><strong>Closest Dining:</strong> {dorm.nearest_dining}</p>
                 </div>
-              </div>
+              </li>
             ))}
           </div>
         ) : (
