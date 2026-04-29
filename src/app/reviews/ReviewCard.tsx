@@ -20,7 +20,7 @@ class reviewClient {
     this.supabase = createClient();
   }
 
-  async addReview(dormName: string, review: any) {
+  async addReview(dormName: string, review: Review) {
     const { data, error } = await this.supabase
       .from("Reviews")
       .insert({

@@ -1,17 +1,17 @@
 'use client';
 
-import { createContext } from 'react';
+//import { createContext } from 'react';
 
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Location, DormLocation, DiningLocation, TransportLocation } from "../../lib/Location";
+import {DormLocation, DiningLocation} from "../../lib/Location";
 
 // Fix for default marker icons not showing up in Webpack/Vite builds
 import L from 'leaflet';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
-let DefaultIcon = L.icon({
+const DefaultIcon = L.icon({
     iconUrl: typeof markerIcon === 'string' ? markerIcon : (markerIcon as any).src,
     shadowUrl: typeof markerShadow === 'string' ? markerShadow : (markerShadow as any).src,
     iconSize: [25, 41],

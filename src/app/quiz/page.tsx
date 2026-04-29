@@ -1,12 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, FormEvent, ChangeEvent } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 import { DormBuilding } from "../../lib/DormBuilding";
 import { TranslateResponse } from "../dorms/TranslateResponse";
 import { DormRoomTypes } from "../../lib/DormRoomTypes";
 import { createClient } from "../utils/supabase/client";
-import { Quiz, Question, MultChoiceQuestion, BudgetQuestion } from "../../lib/Quiz";
+import { MultChoiceQuestion, BudgetQuestion } from "../../lib/Quiz";
 
 //interface to satisfy our vercel overlords
 interface QuizAnswers {
@@ -80,7 +80,7 @@ export default function Home() {
         ? { data: [], statusText: "ERROR", error: error.message }
         : { data: data, statusText: "OK" };
 
-      let dormlist: DormBuilding[] = translator.translate_response(db_response);
+      const dormlist: DormBuilding[] = translator.translate_response(db_response);
 
       //filter
       const filteredDorms = dormlist.filter((dorm) => {

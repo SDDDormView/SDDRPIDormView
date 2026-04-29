@@ -29,32 +29,32 @@ const YEAR_CODE_MAP = {
 	"Junior, Senior, Co-term": "U",
 };
 
-const BUILDING_TYPE_MAP = {
-	// Different from room type fix
-	Suite: "Suite",
-	Traditional: "Traditional",
-	Apartment: "Apartment",
-	Suite_Traditional: "Suite/Traditional",
-}
+//const BUILDING_TYPE_MAP = {
+	//// Different from room type fix
+	//Suite: "Suite",
+	//Traditional: "Traditional",
+	//Apartment: "Apartment",
+	//Suite_Traditional: "Suite/Traditional",
+//}
 
-const RESTROOMS_MAP = {
-	// Do we need map for Restroom as filter?
-	Room: "R",
-	Floor: "F",
-	Room_Floor: "RF",
-}
+//const RESTROOMS_MAP = {
+	//// Do we need map for Restroom as filter?
+	//Room: "R",
+	//Floor: "F",
+	//Room_Floor: "RF",
+//}
 
-const MATTRESS_SIZE_MAP = {
-	// idk if we need mattress size filter
-}
+//const MATTRESS_SIZE_MAP = {
+	//// idk if we need mattress size filter
+//}
 
-const NEAREST_DINING_MAP = {
-	// fixing DINING naming for blitman and RSDH
-	Barh: "BARH",
-	Commons: "Commons",
-	Blitman: "Blitman",
-	Rsdh: "RSDH",
-}
+//const NEAREST_DINING_MAP = {
+	//// fixing DINING naming for blitman and RSDH
+	//Barh: "BARH",
+	//Commons: "Commons",
+	//Blitman: "Blitman",
+	//Rsdh: "RSDH",
+//}
 
 const EXACT_MATCH_FILTERS = new Set([
 	// attribute filters not dorm stuff like years

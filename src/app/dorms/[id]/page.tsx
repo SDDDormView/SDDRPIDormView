@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 import { TranslateResponse } from "../TranslateResponse.js";
 import { DormBuilding } from "../../../lib/DormBuilding";
+import { DormRoomTypes } from "../../../lib/DormRoomTypes";
 
 //small helpers
 
@@ -273,7 +274,7 @@ export default function DormDetailPage() {
               Room Pricing
             </h2>
             <div className="grid grid-cols-3 gap-3">
-              {roomTypes.map((rt: any, i: number) => {
+              {roomTypes.map((rt: DormRoomTypes, i: number) => {
                 const rtAttrs = rt.get_attributes();
                 const type = rtAttrs?.get("room_type");
                 const styles = getRoomTypeStyles(type);
