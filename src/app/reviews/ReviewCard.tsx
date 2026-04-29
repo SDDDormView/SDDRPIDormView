@@ -112,9 +112,6 @@ const ReviewForm: React.FC<{}> = () => {
       (event: AuthChangeEvent, session: Session | null) => {
         const currentUser = session?.user || null;
         setUser(currentUser);
-        if (currentUser?.email) {
-          setAuthor(currentUser.email);
-        }
         setUserLoading(false);
       }
     );
@@ -123,7 +120,6 @@ const ReviewForm: React.FC<{}> = () => {
     supabase.auth.getSession().then(({ data: { session } }: { data: { session: Session | null } }) => {
       if (session?.user) {
         setUser(session.user);
-        setAuthor(session.user.email || '');
       }
       setUserLoading(false);
     });
@@ -219,7 +215,6 @@ const ReviewForm: React.FC<{}> = () => {
             placeholder="Your name"
             className="w-full border rounded p-2"
             value={author}
-            disabled
             onChange={(e) => setAuthor(e.target.value)}
             required
           />
