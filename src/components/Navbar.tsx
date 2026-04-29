@@ -103,7 +103,12 @@ export default function Navbar() {
               </Link>
             )
           })}
-          <a href="/reviews" className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition">
+
+          <a href="/reviews" className={`text-white transition-all ${
+                  pathname === "/reviews"
+                    ? "text-lg font-semibold"
+                    : "text-base hover:text-gray-300"
+                }`}>
               Reviews
           </a>
 
