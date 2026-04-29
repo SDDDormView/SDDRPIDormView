@@ -37,7 +37,7 @@ export default function Home() {
       password,
         options: {
           emailRedirectTo: "https://sddrpi-dorm-view.vercel.app/"
-        };
+        }
     });
     // Supabase handles errors
     if (error) {
