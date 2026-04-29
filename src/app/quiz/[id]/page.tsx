@@ -24,7 +24,7 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
           <div className="grid gap-6">
             {dorms.map((dorm: any, index: number) => (
               <li key={index} className="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-600">
-                <Link href={`../dorms/${encodeURIComponent(dorm.get_dorm_name())}`}>
+                <Link href={`../dorms/${encodeURIComponent(dorm.dorm_name)}`} className="block">
                   <h2 className="text-xl font-bold text-gray-900">{dorm.dorm_name}</h2>
                   <div className="mt-2 grid grid-cols-2 gap-4 text-sm text-gray-600">
                     <p><strong>Available for:</strong> {dorm.years}</p>
