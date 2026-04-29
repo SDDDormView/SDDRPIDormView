@@ -24,13 +24,15 @@ export default function ResultsPage({ params }: { params: Promise<{ id: string }
           <div className="grid gap-6">
             {dorms.map((dorm: any, index: number) => (
               <li key={index} className="bg-white p-6 rounded-lg shadow-md border-l-4 border-red-600">
-                <h2 className="text-xl font-bold text-gray-900">{dorm.dorm_name}</h2>
-                <div className="mt-2 grid grid-cols-2 gap-4 text-sm text-gray-600">
-                  <p><strong>Available for:</strong> {dorm.years}</p>
-                  <p><strong>Styles:</strong> {dorm.building_styles}</p>
-                  <p className="col-span-2"><strong>Room Types:</strong> {dorm.room_types_prices}</p>
-                  <p><strong>Closest Dining:</strong> {dorm.nearest_dining}</p>
-                </div>
+                <Link href={`/dorms/${encodeURIComponent(dorm.get_dorm_name())}`}>
+                  <h2 className="text-xl font-bold text-gray-900">{dorm.dorm_name}</h2>
+                  <div className="mt-2 grid grid-cols-2 gap-4 text-sm text-gray-600">
+                    <p><strong>Available for:</strong> {dorm.years}</p>
+                    <p><strong>Styles:</strong> {dorm.building_styles}</p>
+                    <p className="col-span-2"><strong>Room Types:</strong> {dorm.room_types_prices}</p>
+                    <p><strong>Closest Dining:</strong> {dorm.nearest_dining}</p>
+                  </div>
+                </Link>
               </li>
             ))}
           </div>
