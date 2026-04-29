@@ -1,35 +1,35 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { createClient } from "@supabase/supabase-js"
+import { useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!
-)
+);
 
 export default function ResetPasswordPage() {
-  const [password, setPassword] = useState("")
-  const [done, setDone] = useState(false)
+  const [password, setPassword] = useState("");
+  const [done, setDone] = useState(false);
 
   const handleUpdate = async () => {
     const { error } = await supabase.auth.updateUser({
       password,
-    })
+    });
 
     if (error) {
       alert(error.message)
     } else {
       setDone(true)
     }
-  }
+  };
 
   if (done) {
     return (
       <div className="p-10 text-center">
         Password updated! You can now log in.
       </div>
-    )
+    );
   }
 
   return (
@@ -49,5 +49,5 @@ export default function ResetPasswordPage() {
         </button>
       </div>
     </div>
-  )
+  );
 }

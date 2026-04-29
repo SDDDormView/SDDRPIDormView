@@ -1,10 +1,8 @@
 'use client';
 
-//import { createContext } from 'react';
-
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import {DormLocation, DiningLocation} from "../../lib/Location";
+import { DormLocation, DiningLocation } from "../../lib/Location";
 
 // Fix for default marker icons not showing up in Webpack/Vite builds
 import L from 'leaflet';

@@ -1,36 +1,36 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { createClient } from "@supabase/supabase-js"
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient( // add whenever we need user
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!
-)
+);
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const pathname = usePathname()
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
-  const [user, setUser] = useState<any>(null)
-  const [username, setUsername] = useState<string | null>(null)
-  const [open, setOpen] = useState(false)
+  const [user, setUser] = useState<any>(null);
+  const [username, setUsername] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10)
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // get user and profile info
   useEffect(() => {
     const getUser = async () => {
-      const { data } = await supabase.auth.getUser()
+      const { data } = await supabase.auth.getUser();
 
       if (data.user) {
         setUser(data.user)
@@ -39,21 +39,21 @@ export default function Navbar() {
           .from("profiles")
           .select("username")
           .eq("id", data.user.id)
-          .single()
+          .single();
 
         if (profile) setUsername(profile.username)
       }
     }
 
     getUser()
-  }, [])
+  }, []);
 
   const handleSignOut = async () => { // handle signout
-    await supabase.auth.signOut()
-    setUser(null)
-    setUsername(null)
-    setOpen(false)
-  }
+    await supabase.auth.signOut();
+    setUser(null);
+    setUsername(null);
+    setOpen(false);
+  };
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -61,7 +61,7 @@ export default function Navbar() {
     { name: "Quiz", href: "/quiz" },
     { name: "Dorms", href: "/dorms" },
     { name: "Reviews", href: "/reviews" },
-  ]
+  ];
 
   return (
     <header
@@ -133,5 +133,5 @@ export default function Navbar() {
         </nav>
       </div>
     </header>
-  )
+  );
 }
