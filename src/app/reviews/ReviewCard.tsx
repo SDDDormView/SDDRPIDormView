@@ -3,6 +3,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Review } from "../../lib/Review.js";
 import { createClient } from "../utils/supabase/client";
+import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
 
 // helper type for review data
 type ReviewData = {
@@ -104,22 +105,32 @@ const ReviewForm: React.FC<{}> = () => {
   const [userLoading, setUserLoading] = useState(true);
 
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        setUser(user);
-        if (user?.email) {
-          setAuthor(user.email);
+    const supabase = createClient();
+
+    // Use onAuthStateChange to listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event: AuthChangeEvent, session: Session | null) => {
+        const currentUser = session?.user || null;
+        setUser(currentUser);
+        if (currentUser?.email) {
+          setAuthor(currentUser.email);
         }
-      } catch (error) {
-        console.error('Failed to check user:', error);
-      } finally {
         setUserLoading(false);
       }
-    };
+    );
 
-    checkUser();
+    // Also check immediately in case the session is already loaded
+    supabase.auth.getSession().then(({ data: { session } }: { data: { session: Session | null } }) => {
+      if (session?.user) {
+        setUser(session.user);
+        setAuthor(session.user.email || '');
+      }
+      setUserLoading(false);
+    });
+
+    return () => {
+      subscription?.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
