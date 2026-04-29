@@ -13,17 +13,20 @@ export default function Home() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   // Handle login
   const handleLogin = async () => {
+    setError(null);
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     // Supabase handles errors
-    if (error) alert(error.message)
+    if (error) setError(error.message)
     else {
       alert("Logged in!")
       window.location.href = "/"
@@ -32,6 +35,19 @@ export default function Home() {
 
   // Handle signup
   const handleSignup = async () => {
+    setError(null);
+
+    // Validate passwords match
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -41,7 +57,7 @@ export default function Home() {
     });
     // Supabase handles errors
     if (error) {
-      alert(error.message);
+      setError(error.message);
       return;
     }
     // If no error, create profile with username and id and insert into profiles table
@@ -77,6 +93,8 @@ export default function Home() {
             <div>
               <h2 className="text-xl font-medium mb-6">Log In</h2>
 
+              {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">{error}</div>}
+
               <div className="block mb-4">
                 <p className="text-sm text-gray-500">Email</p>
                 <input type="text" className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400" placeholder="Enter Your Email"
@@ -100,13 +118,13 @@ export default function Home() {
               {/* SWAP TO CREATE ACCOUNT */}
               <section className="flex items-center justify-between">
                 <div className="text-left">
-                  <button onClick={() => setShowCreate('create')} className="text-sm underline text-gray-500">Create Account</button>
+                  <button onClick={() => { setShowCreate('create'); setError(null); }} className="text-sm underline text-gray-500">Create Account</button>
                 </div>
                 <div className="text-right">
-                  <button onClick={() => setShowCreate('forgot')} className="text-sm underline text-gray-500">Forgot Password?</button>
+                  <button onClick={() => { setShowCreate('forgot'); setError(null); }} className="text-sm underline text-gray-500">Forgot Password?</button>
                 </div>
               </section>
-                
+
             </div>
           )}
 
@@ -138,8 +156,12 @@ export default function Home() {
 
               <div className="block mb-6">
                 <p className="text-sm text-gray-500">Password again</p>
-                <input type="password" className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400" placeholder="Confirm Password" />
+                <input type="password" className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400" placeholder="Confirm Password"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
               </div>
+
+              {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm">{error}</div>}
 
               <hr className="border-gray-200 my-4" />
 
@@ -149,9 +171,9 @@ export default function Home() {
 
               {/* SWAP TO LOG IN */}
               <div className="text-center">
-                <button onClick={() => setShowCreate('login')} className="text-sm underline text-gray-500">Back to Log In</button>
+                <button onClick={() => { setShowCreate('login'); setError(null); }} className="text-sm underline text-gray-500">Back to Log In</button>
               </div>
-                
+
             </div>
           )}
 
@@ -175,13 +197,13 @@ export default function Home() {
               {/* SWAP TO CREATE OR LOG IN */}
               <section className="flex items-center justify-between">
                 <div className="text-left">
-                  <button onClick={() => setShowCreate('create')} className="text-sm underline text-gray-500">Create Account</button>
+                  <button onClick={() => { setShowCreate('create'); setError(null); }} className="text-sm underline text-gray-500">Create Account</button>
                 </div>
                 <div className="text-right">
-                  <button onClick={() => setShowCreate('login')} className="text-sm underline text-gray-500">Back to Log In</button>
+                  <button onClick={() => { setShowCreate('login'); setError(null); }} className="text-sm underline text-gray-500">Back to Log In</button>
                 </div>
               </section>
-                
+
             </div>
           )}
 
