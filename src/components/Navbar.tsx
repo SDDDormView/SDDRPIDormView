@@ -60,7 +60,6 @@ export default function Navbar() {
     { name: "Map", href: "/map" },
     { name: "Quiz", href: "/quiz" },
     { name: "Dorms", href: "/dorms" },
-    { name: "Reviews", href: "/reviews" },
   ];
 
   return (
@@ -104,6 +103,9 @@ export default function Navbar() {
               </Link>
             )
           })}
+          <a href="/reviews" className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition">
+              Reviews
+          </a>
 
           {/* LOGIN/LOGOUT */}
           {!user ? (
