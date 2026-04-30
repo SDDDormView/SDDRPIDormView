@@ -173,7 +173,7 @@ export default function Home() {
           <div className = "flex items-left gap-4">
             <p className="text-1xl italic px-5 py-2">Dorm: Quadrangle (Quad)</p>
             <p className="text-1xl italic px-5 py-2">Room Types: Single, Double, Triple</p>
-            <p className="text-1xl italic px-5 py-2">Student Rating: -/5</p>
+            <p className="text-1xl italic px-5 py-2">Student Rating: 5/5</p>
           </div>
 
           {/* DESCRIPTION - General description of dorm*/}
@@ -190,11 +190,11 @@ export default function Home() {
             </p>
 
           </div>
-          
-        </section>
-          
 
-          
+        </section>
+
+
+
 
       </section>
 
