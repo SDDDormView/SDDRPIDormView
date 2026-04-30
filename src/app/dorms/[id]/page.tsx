@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { createClient } from "../../utils/supabase/client";
 import { TranslateResponse } from "../TranslateResponse.js";
 import { DormBuilding } from "../../../lib/DormBuilding";
@@ -160,6 +160,8 @@ export default function DormDetailPage() {
   const numFloors      = attrs?.get("num_floors") ?? "—";
   const isGI           = attrs?.get("gender_inclusive") ?? false;
 
+   const router = useRouter();
+
   //render UI
   return (
     <main className="flex flex-col min-h-screen bg-white">
@@ -167,9 +169,10 @@ export default function DormDetailPage() {
 
       <div className="max-w-2xl mx-auto w-full px-6 py-10 space-y-7">
 
-        <Link href="/dorms" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors">
+
+        <button onClick={() => router.back()} className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-colors">
           ← Back to Dorms
-        </Link>
+        </button>
 
         {/* header */}
         <div>
