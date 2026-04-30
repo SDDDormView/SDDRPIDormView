@@ -236,17 +236,22 @@ const ReviewForm: React.FC<{}> = () => {
             ))}
           </select>
 
-          <select
-            className="w-full border rounded p-2"
-            value={rating}
-            onChange={(e) => setRating(Number(e.target.value))}
-          >
-            {[5, 4, 3, 2, 1].map((r) => (
-              <option key={r} value={r}>
-                {r} Stars
-              </option>
-            ))}
-          </select>
+          <div className="flex gap-2">
+            <label className="text-sm text-gray-600">Rating:</label>
+            <div className="flex gap-1">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setRating(star)}
+                  className="text-2xl transition-colors"
+                >
+                  {star <= rating ? '★' : '☆'}
+                </button>
+              ))}
+            </div>
+            <span className="text-sm text-gray-600">{rating} Stars</span>
+          </div>
 
           <textarea
             placeholder="Write your review..."
