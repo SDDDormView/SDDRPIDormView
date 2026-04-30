@@ -244,7 +244,7 @@ const ReviewForm: React.FC<{}> = () => {
                   key={star}
                   type="button"
                   onClick={() => setRating(star)}
-                  className="mt-2 text-yellow-500 text-4xl focus:outline-none"
+                  className="mt-2 text-yellow-500 text-3xl focus:outline-none"
                 >
                   {star <= rating ? '★' : '☆'}
                 </button>
