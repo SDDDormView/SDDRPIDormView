@@ -244,13 +244,12 @@ const ReviewForm: React.FC<{}> = () => {
                   key={star}
                   type="button"
                   onClick={() => setRating(star)}
-                  className="text-2xl transition-colors"
+                  className="mt-2 text-yellow-500 focus:outline-none"
                 >
                   {star <= rating ? '★' : '☆'}
                 </button>
               ))}
             </div>
-            <span className="text-sm text-gray-600">{rating} Stars</span>
           </div>
 
           <textarea
