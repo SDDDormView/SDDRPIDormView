@@ -1,6 +1,6 @@
 'use client';
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { DormLocation, DiningLocation } from "../../lib/Location";
 
@@ -53,10 +53,10 @@ export default function Home() {
       <div className="h-18 bg-black flex shrink-0">
 
       </div>
-      <div className="flex-1 relative"> 
-        <MapContainer 
-          center={centerpos} 
-          zoom={15.2} 
+      <div className="flex-1 relative">
+        <MapContainer
+          center={centerpos}
+          zoom={15.2}
           style={{ height: "100%", width: "100%" }}
         >
           <TileLayer
@@ -120,18 +120,19 @@ export default function Home() {
           <Marker position={[quad.lat, quad.long]}>
             <Popup>{quad.get_info().dorm_name}</Popup>
           </Marker>
-          <Marker position={[barh_d.lat, barh_d.long]}>
+
+          <CircleMarker center={[barh_d.lat, barh_d.long]} pathOptions={{ color: 'red' }}>
             <Popup>{barh_d.get_info().dining_name}</Popup>
-          </Marker>
-          <Marker position={[sage.lat, sage.long]}>
+          </CircleMarker>
+          <CircleMarker center={[sage.lat, sage.long]} pathOptions={{ color: 'red' }}>
             <Popup>{sage.get_info().dining_name}</Popup>
-          </Marker>
-          <Marker position={[commons.lat, commons.long]}>
+          </CircleMarker>
+          <CircleMarker center={[commons.lat, commons.long]} pathOptions={{ color: 'red' }}>
             <Popup>{commons.get_info().dining_name}</Popup>
-          </Marker>
-          <Marker position={[blitman_d.lat, blitman_d.long]}>
+          </CircleMarker>
+          <CircleMarker center={[blitman_d.lat, blitman_d.long]} pathOptions={{ color: 'red' }}>
             <Popup>{blitman_d.get_info().dining_name}</Popup>
-          </Marker>
+          </CircleMarker>
         </MapContainer>
       </div>
     </main>
